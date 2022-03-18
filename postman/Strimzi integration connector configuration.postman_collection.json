@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "fd08fc36-448a-45ce-bc8f-69e7eb8b8d47",
+		"name": "Strimzi integration connector configuration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Update the server type name",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseURL}}/open-metadata/admin-services/users/{{user}}/servers/{{server}}/server-type?typeName=Integration Daemon",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"open-metadata",
+						"admin-services",
+						"users",
+						"{{user}}",
+						"servers",
+						"{{server}}",
+						"server-type"
+					],
+					"query": [
+						{
+							"key": "typeName",
+							"value": "Integration Daemon"
+						}
+					]
+				},
+				"description": "Requests information about the author of the server platform."
+			},
+			"response": []
+		},
+		{
+			"name": "2. Configure the audit log",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"class\":\"Connection\",\n   \"type\":{\n      \"class\":\"ElementType\",\n      \"elementTypeId\":\"114e9f8f-5ff3-4c32-bd37-a7eb42712253\",\n      \"elementTypeName\":\"Connection\",\n      \"elementTypeVersion\":1,\n      \"elementTypeDescription\":\"A set of properties to identify and configure a connector instance.\",\n      \"elementOrigin\":\"CONFIGURATION\"\n   },\n   \"guid\":\"5390bf3e-6b38-4eda-b34a-de55ac4252a7\",\n   \"qualifiedName\":\"DefaultAuditLog.Connection.viewserver\",\n   \"displayName\":\"DefaultAuditLog.Connection.viewserver\",\n   \"description\":\"OMRS default audit log connection.\",\n   \"connectorType\":{\n      \"class\":\"ConnectorType\",\n      \"type\":{\n         \"class\":\"ElementType\",\n         \"elementTypeId\":\"954421eb-33a6-462d-a8ca-b5709a1bd0d4\",\n         \"elementTypeName\":\"ConnectorType\",\n         \"elementTypeVersion\":1,\n         \"elementTypeDescription\":\"A set of properties describing a type of connector.\",\n         \"elementOrigin\":\"LOCAL_COHORT\"\n      },\n      \"guid\":\"4afac741-3dcc-4c60-a4ca-a6dede994e3f\",\n      \"qualifiedName\":\"Console Audit Log Store Connector\",\n      \"displayName\":\"Console Audit Log Store Connector\",\n      \"description\":\"Connector supports logging of audit log messages to stdout.\",\n      \"connectorProviderClassName\":\"org.odpi.openmetadata.adapters.repositoryservices.auditlogstore.console.ConsoleAuditLogStoreProvider\"\n   },\n   \"endpoint\":{\n      \"class\":\"Endpoint\",\n      \"type\":{\n         \"class\":\"ElementType\",\n         \"elementTypeId\":\"dbc20663-d705-4ff0-8424-80c262c6b8e7\",\n         \"elementTypeName\":\"Endpoint\",\n         \"elementTypeVersion\":1,\n         \"elementTypeDescription\":\"Description of the network address and related information needed to call a software service.\",\n         \"elementOrigin\":\"CONFIGURATION\"\n      },\n      \"guid\":\"836efeae-ab34-4425-89f0-6adf2faa1f2e\",\n      \"qualifiedName\":\"DefaultAuditLog.Endpoint.cocoView1.auditlog\",\n      \"displayName\":\"DefaultAuditLog.Endpoint.cocoView1.auditlog\",\n      \"description\":\"OMRS default audit log endpoint.\",\n      \"address\":\"strim1.auditlog\"\n   }\n}"
+				},
+				"url": {
+					"raw": "https://{{baseURL}}/open-metadata/admin-services/users/garygeeke/servers/{{server})/audit-log-destinations/connection",
+					"protocol": "https",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"open-metadata",
+						"admin-services",
+						"users",
+						"garygeeke",
+						"servers",
+						"{{server})",
+						"audit-log-destinations",
+						"connection"
+					]
+				},
+				"description": "Requests information about the author of the server platform."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Configure the strimzi integrator service",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"class\": \"IntegrationServiceRequestBody\",\n        \"omagserverPlatformRootURL\": \"{{baseURLForOMAS}}}\",\n        \"omagserverName\" : \"{{OMASServer}}\",\n        \"connectorUserId\" : \"{{connectorUserId}}}}\",        \n        \"integrationConnectorConfigs\" :  [ \n        {\n             \"class\": \"IntegrationConnectorConfig\",\n             \"connectorName\" : \"StrimziIntegrator\",      \n             \"typeName\" :  \"Strimzi Monitor Integration Connector\",             \n             \"connection\" : \n                          { \n                              \"class\" : \"Connection\",\n                              \"connectorType\" : \n                              {\n                                  \"class\" : \"ConnectorType\",\n                                  \"connectorProviderClassName\" : \"org.odpi.openmetadata.adapters.connectors.integration.strimzi.StrimziMonitorIntegrationProvider\"\n                              },\n                               \"configurationProperties\": {\n                                    \"topicNamePrefix\": \"{{topicPrefix}}}}\",\n                                     \"token\" : \"{{token}}}}\"\n                                    \n                              },\n                              \"endpoint\" :\n                              {\n                                  \"class\" : \"Endpoint\",\n                                  \"address\": \"{{StrimziEndpoint}}}}\"\n                              }\n                          },               \n             \"metadataSourceQualifiedName\" : \"{{brokerName}}}}\",\n              \"refreshTimeInterval\": \"1\", \n             \"permittedSynchronization\" : \"FROM_THIRD_PARTY\"\n        } \n        ]      \n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/open-metadata/admin-services/users/{{user}}/servers/{{server}}/integration-services/topic-integrator",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"open-metadata",
+						"admin-services",
+						"users",
+						"{{user}}",
+						"servers",
+						"{{server}}",
+						"integration-services",
+						"topic-integrator"
+					]
+				},
+				"description": "Requests information about the author of the server platform."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Start the Integration server",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseURL}}/open-metadata/admin-services/users/{{user}}/servers/{{server}}/instance",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"open-metadata",
+						"admin-services",
+						"users",
+						"{{user}}",
+						"servers",
+						"{{server}}",
+						"instance"
+					]
+				},
+				"description": "Requests information about the author of the server platform."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Retrieve configuration",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/open-metadata/admin-services/users{{user}}/servers/{{server}}/configuration",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"open-metadata",
+						"admin-services",
+						"users{{user}}",
+						"servers",
+						"{{server}}",
+						"configuration"
+					]
+				},
+				"description": "Requests information about the author of the server platform."
+			},
+			"response": []
+		}
+	]
+}

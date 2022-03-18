@@ -1,0 +1,78 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright Contributors to the ODPi Egeria project.
+ */
+
+repositories {
+        mavenCentral()
+}
+group = 'org.odpi.egeria'
+version = 1
+configurations {
+    extralibs
+}
+apply plugin: 'java-library'
+ext {
+    egeriaversion = '3.2'
+    logbackVersion = '1.2.6'
+    jacksonVersion = '2.13.0'
+    junitjupiterVersion = '5.8.1'
+}
+dependencies {
+        implementation "org.slf4j:slf4j-api:${logbackVersion}"
+        implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+        implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+        implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+        implementation "org.junit.jupiter:junit-jupiter:${junitjupiterVersion}"
+        implementation "org.odpi.egeria:open-connector-framework:${egeriaversion}"
+        implementation "org.odpi.egeria:audit-log-framework:${egeriaversion}"
+        implementation "org.odpi.egeria:repository-services:${egeriaversion}"
+        implementation "org.odpi.egeria:repository-services-apis:${egeriaversion}"
+        implementation "org.odpi.egeria:topic-integrator-api:${egeriaversion}"
+        implementation "org.odpi.egeria:kafka-open-metadata-topic-connector:${egeriaversion}"
+        extralibs 'org.apache.httpcomponents:httpclient:4.5.13'
+        configurations.compile.extendsFrom(configurations.extralibs)
+}
+
+test {
+    useJUnitPlatform()
+    dependencies {
+        testCompile("org.junit.jupiter:junit-jupiter-api:5.7.0")
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
+        testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.0"
+        testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    }
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    reports {
+        html.enabled = true
+    }
+    filter {
+        includeTestsMatching "*Test"
+    }
+}
+
+
+// Maven Central (technically sonatype oss) requires we distribute source and javadoc
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+// More Java language settings
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = "11"
+    targetCompatibility = "11"
+    options.incremental = true
+    options.fork = true
+    options.failOnError = true
+    options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
+}
+
+jar {
+    from {
+        configurations.extralibs.filter{it.exists()}
+        .collect{it.isDirectory() ? it : zipTree(it)}
+    }
+}
