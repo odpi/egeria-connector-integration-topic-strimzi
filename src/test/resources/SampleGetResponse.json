@@ -1,0 +1,2425 @@
+{
+  "apiVersion":"kafka.strimzi.io/v1beta1",
+  "items":[
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "creationTimestamp":"2021-11-12T14:08:48Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:cleanup.policy":{
+
+                  },
+                  "f:compression.type":{
+
+                  },
+                  "f:segment.bytes":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                },
+                "f:topicName":{
+
+                }
+              },
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:08:49Z"
+          }
+        ],
+        "name":"consumer-offsets---84e7a678d08f4bd226872e5cdd4eb527fadc1c6a",
+        "namespace":"kafka",
+        "resourceVersion":"29206399",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/consumer-offsets---84e7a678d08f4bd226872e5cdd4eb527fadc1c6a",
+        "uid":"9cca3cf7-d321-425b-8607-e8de3ad0386b"
+      },
+      "spec":{
+        "config":{
+          "cleanup.policy":"compact",
+          "compression.type":"producer",
+          "segment.bytes":"104857600"
+        },
+        "partitions":50,
+        "replicas":1,
+        "topicName":"__consumer_offsets"
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:08:49.018921Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"__consumer_offsets"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "creationTimestamp":"2021-11-12T14:08:48Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:min.insync.replicas":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                },
+                "f:topicName":{
+
+                }
+              },
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:08:49Z"
+          }
+        ],
+        "name":"strimzi-store-topic---effb8e3e057afce1ecf67c3f5d8e4e3ff177fc55",
+        "namespace":"kafka",
+        "resourceVersion":"29206396",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/strimzi-store-topic---effb8e3e057afce1ecf67c3f5d8e4e3ff177fc55",
+        "uid":"18b9b5dc-cddf-42e1-9cd9-5783d39a7fe6"
+      },
+      "spec":{
+        "config":{
+          "min.insync.replicas":"1"
+        },
+        "partitions":1,
+        "replicas":1,
+        "topicName":"__strimzi_store_topic"
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:08:49.000551Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"__strimzi_store_topic"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "creationTimestamp":"2021-11-12T14:08:48Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:cleanup.policy":{
+
+                  },
+                  "f:message.timestamp.type":{
+
+                  },
+                  "f:min.compaction.lag.ms":{
+
+                  },
+                  "f:segment.bytes":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                },
+                "f:topicName":{
+
+                }
+              },
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:08:49Z"
+          }
+        ],
+        "name":"strimzi-topic-operator-kstreams-topic-store-changelog---b75e702040b99be8a9263134de3507fc0cc4017b",
+        "namespace":"kafka",
+        "resourceVersion":"29206397",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/strimzi-topic-operator-kstreams-topic-store-changelog---b75e702040b99be8a9263134de3507fc0cc4017b",
+        "uid":"87683c30-d56e-4e8d-af1b-d465a628453c"
+      },
+      "spec":{
+        "config":{
+          "cleanup.policy":"compact",
+          "message.timestamp.type":"CreateTime",
+          "min.compaction.lag.ms":"0",
+          "segment.bytes":"67108864"
+        },
+        "partitions":1,
+        "replicas":1,
+        "topicName":"__strimzi-topic-operator-kstreams-topic-store-changelog"
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:08:49.016408Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"__strimzi-topic-operator-kstreams-topic-store-changelog"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.agree-kundendaten\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"compression.type\":\"gzip\",\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:28Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:compression.type":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:28Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:28Z"
+          }
+        ],
+        "name":"vertriebskunde-services.agree-kundendaten",
+        "namespace":"kafka",
+        "resourceVersion":"29212585",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.agree-kundendaten",
+        "uid":"07e56964-8dd8-4293-871e-ab737a340658"
+      },
+      "spec":{
+        "config":{
+          "compression.type":"gzip",
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:28.904501Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.agree-kundendaten"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.agree-kundendaten-compacted\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"cleanup.policy\":\"compact\",\"retention.ms\":-1},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:29Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:cleanup.policy":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:30Z"
+          }
+        ],
+        "name":"vertriebskunde-services.agree-kundendaten-compacted",
+        "namespace":"kafka",
+        "resourceVersion":"29212631",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.agree-kundendaten-compacted",
+        "uid":"4ca51bc3-8c21-408c-8854-b28c8c3fcfef"
+      },
+      "spec":{
+        "config":{
+          "cleanup.policy":"compact",
+          "retention.ms":-1
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:30.536302Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.agree-kundendaten-compacted"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.agree-personenrollen\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:29Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:30Z"
+          }
+        ],
+        "name":"vertriebskunde-services.agree-personenrollen",
+        "namespace":"kafka",
+        "resourceVersion":"29212621",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.agree-personenrollen",
+        "uid":"588e788b-ed2f-4a18-a05d-7dbfcfb11f31"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:30.111431Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.agree-personenrollen"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.agree-pkfkregelwerk\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:29Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          }
+        ],
+        "name":"vertriebskunde-services.agree-pkfkregelwerk",
+        "namespace":"kafka",
+        "resourceVersion":"29212616",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.agree-pkfkregelwerk",
+        "uid":"30051cec-962d-4458-b165-fa68177c4c2b"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:29.793427Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.agree-pkfkregelwerk"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.agree-vertragsrollen\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:28Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:28Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          }
+        ],
+        "name":"vertriebskunde-services.agree-vertragsrollen",
+        "namespace":"kafka",
+        "resourceVersion":"29212607",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.agree-vertragsrollen",
+        "uid":"ec41e262-bf50-4807-a063-12bd565fbc2e"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:29.543371Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.agree-vertragsrollen"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.dgraph-kundendaten-intake-compacted\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"cleanup.policy\":\"compact\",\"retention.ms\":-1},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:30Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:cleanup.policy":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:30Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:31Z"
+          }
+        ],
+        "name":"vertriebskunde-services.dgraph-kundendaten-intake-compacted",
+        "namespace":"kafka",
+        "resourceVersion":"29212656",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.dgraph-kundendaten-intake-compacted",
+        "uid":"655852a1-c3ea-4384-a1db-425c447bf217"
+      },
+      "spec":{
+        "config":{
+          "cleanup.policy":"compact",
+          "retention.ms":-1
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:31.122473Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.dgraph-kundendaten-intake-compacted"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.kundendaten-angereichert-compacted\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"cleanup.policy\":\"compact\",\"retention.ms\":-1},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:29Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:cleanup.policy":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:30Z"
+          }
+        ],
+        "name":"vertriebskunde-services.kundendaten-angereichert-compacted",
+        "namespace":"kafka",
+        "resourceVersion":"29212632",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.kundendaten-angereichert-compacted",
+        "uid":"4a21c69c-8a59-42d7-82d2-207a6cd68ae2"
+      },
+      "spec":{
+        "config":{
+          "cleanup.policy":"compact",
+          "retention.ms":-1
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:30.548769Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.kundendaten-angereichert-compacted"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.kundendaten-intake-compacted\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"cleanup.policy\":\"compact\",\"compression.type\":\"gzip\",\"retention.ms\":-1},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:28Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:cleanup.policy":{
+
+                  },
+                  "f:compression.type":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:28Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          }
+        ],
+        "name":"vertriebskunde-services.kundendaten-intake-compacted",
+        "namespace":"kafka",
+        "resourceVersion":"29212600",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.kundendaten-intake-compacted",
+        "uid":"9879757a-30e7-4bc2-81a0-a9d6d4d8b0bc"
+      },
+      "spec":{
+        "config":{
+          "cleanup.policy":"compact",
+          "compression.type":"gzip",
+          "retention.ms":-1
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:29.192540Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.kundendaten-intake-compacted"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.kundendaten-replikation\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:29Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:30Z"
+          }
+        ],
+        "name":"vertriebskunde-services.kundendaten-replikation",
+        "namespace":"kafka",
+        "resourceVersion":"29212635",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.kundendaten-replikation",
+        "uid":"a8eed44c-408b-48d3-97c8-2f077b263dd5"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:30.677389Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.kundendaten-replikation"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.kundendaten-replikation-dlq\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:28Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:28Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          }
+        ],
+        "name":"vertriebskunde-services.kundendaten-replikation-dlq",
+        "namespace":"kafka",
+        "resourceVersion":"29212604",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.kundendaten-replikation-dlq",
+        "uid":"e0a8b5f1-27b4-44c3-bdaf-3737f759df7e"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:29.433331Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.kundendaten-replikation-dlq"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.kundenloeschung\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:30Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:30Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:31Z"
+          }
+        ],
+        "name":"vertriebskunde-services.kundenloeschung",
+        "namespace":"kafka",
+        "resourceVersion":"29212652",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.kundenloeschung",
+        "uid":"3a5e1a3d-fa0f-4237-baff-8f485af7e140"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:31.095699Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.kundenloeschung"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.kundenloeschung-agree21\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:29Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:31Z"
+          }
+        ],
+        "name":"vertriebskunde-services.kundenloeschung-agree21",
+        "namespace":"kafka",
+        "resourceVersion":"29212644",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.kundenloeschung-agree21",
+        "uid":"1ccbe80a-66d7-4c31-9120-53ea1a935445"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:31.007355Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.kundenloeschung-agree21"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.kundenloeschung-vertriebskunde\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:30Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:30Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:31Z"
+          }
+        ],
+        "name":"vertriebskunde-services.kundenloeschung-vertriebskunde",
+        "namespace":"kafka",
+        "resourceVersion":"29212654",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.kundenloeschung-vertriebskunde",
+        "uid":"037ad66d-78db-47b1-874b-688a3d8bad83"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:31.103106Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.kundenloeschung-vertriebskunde"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.kundenproxy-errors\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:30Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:30Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:31Z"
+          }
+        ],
+        "name":"vertriebskunde-services.kundenproxy-errors",
+        "namespace":"kafka",
+        "resourceVersion":"29212658",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.kundenproxy-errors",
+        "uid":"d6c8fc6d-ef19-46e4-b115-7b1cddb8bc53"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:31.125459Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.kundenproxy-errors"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.kundenproxy-kundendaten-compacted\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"cleanup.policy\":\"compact\",\"compression.type\":\"gzip\",\"retention.ms\":-1},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:28Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:cleanup.policy":{
+
+                  },
+                  "f:compression.type":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:28Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          }
+        ],
+        "name":"vertriebskunde-services.kundenproxy-kundendaten-compacted",
+        "namespace":"kafka",
+        "resourceVersion":"29212587",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.kundenproxy-kundendaten-compacted",
+        "uid":"3a5d2b2d-74a6-427f-a749-8c75c7c61305"
+      },
+      "spec":{
+        "config":{
+          "cleanup.policy":"compact",
+          "compression.type":"gzip",
+          "retention.ms":-1
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:29.035961Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.kundenproxy-kundendaten-compacted"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.kundenproxy-pkfkregelwerk\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:29Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          }
+        ],
+        "name":"vertriebskunde-services.kundenproxy-pkfkregelwerk",
+        "namespace":"kafka",
+        "resourceVersion":"29212618",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.kundenproxy-pkfkregelwerk",
+        "uid":"987f44a0-3097-4c93-9506-6f44bf64916d"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:29.922824Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.kundenproxy-pkfkregelwerk"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.neo4j-kundendaten-intake-compacted\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"cleanup.policy\":\"compact\",\"retention.ms\":-1},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:30Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:cleanup.policy":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:30Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:31Z"
+          }
+        ],
+        "name":"vertriebskunde-services.neo4j-kundendaten-intake-compacted",
+        "namespace":"kafka",
+        "resourceVersion":"29212655",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.neo4j-kundendaten-intake-compacted",
+        "uid":"b26bdff0-f0c4-41d4-ae36-63c01b6018b7"
+      },
+      "spec":{
+        "config":{
+          "cleanup.policy":"compact",
+          "retention.ms":-1
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:31.115361Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.neo4j-kundendaten-intake-compacted"
+      }
+    },
+    {
+      "apiVersion":"kafka.strimzi.io/v1beta1",
+      "kind":"KafkaTopic",
+      "metadata":{
+        "annotations":{
+          "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.personenrollen\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
+          "team":"vertriebskunde",
+          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+        },
+        "creationTimestamp":"2021-11-12T14:15:29Z",
+        "generation":1,
+        "labels":{
+          "strimzi.io/cluster":"kafka"
+        },
+        "managedFields":[
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta1",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:metadata":{
+                "f:annotations":{
+                  ".":{
+
+                  },
+                  "f:kubectl.kubernetes.io/last-applied-configuration":{
+
+                  },
+                  "f:team":{
+
+                  },
+                  "f:topic.description":{
+
+                  }
+                },
+                "f:labels":{
+                  ".":{
+
+                  },
+                  "f:strimzi.io/cluster":{
+
+                  }
+                }
+              },
+              "f:spec":{
+                ".":{
+
+                },
+                "f:config":{
+                  ".":{
+
+                  },
+                  "f:retention.ms":{
+
+                  }
+                },
+                "f:partitions":{
+
+                },
+                "f:replicas":{
+
+                }
+              }
+            },
+            "manager":"kubectl-client-side-apply",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:29Z"
+          },
+          {
+            "apiVersion":"kafka.strimzi.io/v1beta2",
+            "fieldsType":"FieldsV1",
+            "fieldsV1":{
+              "f:status":{
+                ".":{
+
+                },
+                "f:conditions":{
+
+                },
+                "f:observedGeneration":{
+
+                },
+                "f:topicName":{
+
+                }
+              }
+            },
+            "manager":"okhttp",
+            "operation":"Update",
+            "time":"2021-11-12T14:15:30Z"
+          }
+        ],
+        "name":"vertriebskunde-services.personenrollen",
+        "namespace":"kafka",
+        "resourceVersion":"29212625",
+        "selfLink":"/apis/kafka.strimzi.io/v1beta1/namespaces/kafka/kafkatopics/vertriebskunde-services.personenrollen",
+        "uid":"486e1608-eef6-40b4-9db9-fbdce4f64dfa"
+      },
+      "spec":{
+        "config":{
+          "retention.ms":2419200000
+        },
+        "partitions":1,
+        "replicas":1
+      },
+      "status":{
+        "conditions":[
+          {
+            "lastTransitionTime":"2021-11-12T14:15:30.213429Z",
+            "status":"True",
+            "type":"Ready"
+          }
+        ],
+        "observedGeneration":1,
+        "topicName":"vertriebskunde-services.personenrollen"
+      }
+    }
+    ]
+    }

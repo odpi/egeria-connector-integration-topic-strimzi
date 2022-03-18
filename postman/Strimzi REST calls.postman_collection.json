@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "9bf7ddf9-fd08-4550-afb6-fce29e8fc33b",
+		"name": "Strimzi REST calls",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a topic named with the variable {{TOPIC}}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"apiVersion\": \"kafka.strimzi.io/v1beta1\",\n    \"kind\": \"KafkaTopic\",\n    \"metadata\": {\n        \"annotations\": {\n            \"team\": \"{{TEAM}}\",\n            \"topic.description\": \"{{TOPIC_DESCRIPTION}}\"\n        },\n        \"labels\": {\n            \"strimzi.io/cluster\": \"{{NAMESPACE}}\"\n        },\n        \"name\": \"{{TOPIC}}\"\n    },\n    \"spec\": {\n        \"config\": {\n            \"retention.ms\": 230000\n        },\n        \"partitions\": 1,\n        \"replicas\": 1\n    }\n}"
+				},
+				"url": {
+					"raw": "https://{{ENDPOINT}}/apis/kafka.strimzi.io/v1beta1/namespaces/{{NAMESPACE}}/kafkatopics",
+					"protocol": "https",
+					"host": [
+						"{{ENDPOINT}}"
+					],
+					"path": [
+						"apis",
+						"kafka.strimzi.io",
+						"v1beta1",
+						"namespaces",
+						"{{NAMESPACE}}",
+						"kafkatopics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change the topic description of the {{TOPIC}} to {{TOPIC_DESCRIPTION_NEW}}",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/merge-patch+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"metadata\": {\n        \"annotations\": {\n            \"kubectl.kubernetes.io/last-applied-configuration\": \"{\\\"apiVersion\\\":\\\"kafka.strimzi.io/v1beta1\\\",\\\"kind\\\":\\\"KafkaTopic\\\",\\\"metadata\\\":{\\\"annotations\\\":{\\\"team\\\":\\\"vertriebskunde\\\",\\\"topic.description\\\":\\\"test\\\"},\\\"labels\\\":{\\\"strimzi.io/cluster\\\":\\\"kafka\\\"},\\\"name\\\":\\\"vertriebskunde-services.vertragsrollen\\\",\\\"namespace\\\":\\\"kafka\\\"},\\\"spec\\\":{\\\"config\\\":{\\\"retention.ms\\\":\\\"2419200000\\\"},\\\"partitions\\\":1,\\\"replicas\\\":1}}\\n\",\n            \"topic.description\": \"{{TOPIC_DESCRIPTION_NEW}}\"\n        }\n    }\n}"
+				},
+				"url": {
+					"raw": "https://{{ENDPOINT}}/apis/kafka.strimzi.io/v1beta1/namespaces/{{NAMESPACE}}/kafkatopics/{{TOPIC}}",
+					"protocol": "https",
+					"host": [
+						"{{ENDPOINT}}"
+					],
+					"path": [
+						"apis",
+						"kafka.strimzi.io",
+						"v1beta1",
+						"namespaces",
+						"{{NAMESPACE}}",
+						"kafkatopics",
+						"{{TOPIC}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all topics",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{ENDPOINT}}/apis/kafka.strimzi.io/v1beta1/namespaces/{{NAMESPACE}}/kafkatopics",
+					"protocol": "https",
+					"host": [
+						"{{ENDPOINT}}"
+					],
+					"path": [
+						"apis",
+						"kafka.strimzi.io",
+						"v1beta1",
+						"namespaces",
+						"{{NAMESPACE}}",
+						"kafkatopics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get the {{TOPIC}}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{ENDPOINT}}/apis/kafka.strimzi.io/v1beta1/namespaces/{{NAMESPACE}}/kafkatopics/{{TOPIC}}",
+					"protocol": "https",
+					"host": [
+						"{{ENDPOINT}}"
+					],
+					"path": [
+						"apis",
+						"kafka.strimzi.io",
+						"v1beta1",
+						"namespaces",
+						"{{NAMESPACE}}",
+						"kafkatopics",
+						"{{TOPIC}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete the {{TOPIC}}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{ENDPOINT}}/apis/kafka.strimzi.io/v1beta1/namespaces/{{NAMESPACE}}/kafkatopics/{{TOPIC}}",
+					"protocol": "https",
+					"host": [
+						"{{ENDPOINT}}"
+					],
+					"path": [
+						"apis",
+						"kafka.strimzi.io",
+						"v1beta1",
+						"namespaces",
+						"{{NAMESPACE}}",
+						"kafkatopics",
+						"{{TOPIC}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
