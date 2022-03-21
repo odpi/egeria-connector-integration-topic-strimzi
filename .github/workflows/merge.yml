@@ -40,5 +40,5 @@ jobs:
       - name: Upload Connector
         uses: actions/upload-artifact@v2
         with:
-          name: Postgres Connector
+          name: Strimzi Integration Connector
           path: '**/build/libs/*.jar'
