@@ -9,6 +9,7 @@ on:
 
 jobs:
   stale:
+    if: ${{ github.repository == 'odpi/egeria-connector-integration-topic-strimzi'}}
     runs-on: ubuntu-latest
     steps:
       - name: check stale issues and prs

@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    if: ${{ github.repository == 'odpi/egeria-connector-integration-topic-strimzi'}}
     runs-on: ubuntu-latest
     name: "PR Verification"
     steps:

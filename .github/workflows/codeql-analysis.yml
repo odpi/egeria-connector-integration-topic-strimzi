@@ -26,6 +26,7 @@ on:
 
 jobs:
   analyze:
+    if: ${{ github.repository == 'odpi/egeria-connector-integration-topic-strimzi'}}
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
