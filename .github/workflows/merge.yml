@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
       # Only for a merge into this repo - not a fork, and just for the main branch
       - name: Build (Publish snapshots to maven central)
-        if: ${{ github.repository == 'odpi/egeria-integration-topic-strimzi' && github.ref == 'refs/heads/main'}}
+        if: ${{ github.repository == 'odpi/egeria-integration-connector-strimzi' && github.ref == 'refs/heads/main'}}
         # TODO: Need to extend build to make use of snapshot repo for publishing
         run: ./gradlew publish
         # Import secrets needed for code signing and distribution
@@ -34,7 +34,7 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
       # In other cases just build but don't publish
       - name: Build (no snapshots)
-        if: ${{ github.repository != 'odpi/egeregeria-integration-topic-strimzi' || github.ref != 'refs/heads/main'}}
+        if: ${{ github.repository != 'odpi/egeria-integration-connector-strimzi' || github.ref != 'refs/heads/main'}}
         run: ./gradlew build
       # --
       - name: Upload Connector
