@@ -27,7 +27,7 @@ configurations.all {
 }
 
 group = 'org.odpi.egeria'
-version = 1
+version = '1.0'
 
 ext {
     egeriaversion = '3.6'
