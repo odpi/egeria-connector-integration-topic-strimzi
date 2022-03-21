@@ -29,6 +29,9 @@ configurations.all {
 group = 'org.odpi.egeria'
 version = '1.0'
 
+ext.name = 'Strimzi topic integration connector'
+description = 'Strimzi topic integration connector for Egeria'
+
 ext {
     egeriaversion = '3.6'
     slf4jVersion = '1.7.36'
