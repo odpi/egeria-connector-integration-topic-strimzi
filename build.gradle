@@ -3,50 +3,61 @@
  * Copyright Contributors to the ODPi Egeria project.
  */
 
+plugins {
+    id 'java-library'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'idea'
+}
+
 repositories {
-        mavenCentral()
+    mavenCentral()
 }
 group = 'org.odpi.egeria'
 version = 1
-configurations {
-    extralibs
-}
-apply plugin: 'java-library'
+
 ext {
-    egeriaversion = '3.2'
-    logbackVersion = '1.2.6'
-    jacksonVersion = '2.13.0'
-    junitjupiterVersion = '5.8.1'
+    egeriaversion = '3.6'
+    slf4jVersion = '1.7.36'
+    jacksonVersion = '2.13.2'
+    jupiterVersion = '5.8.2'
+    httpclientVersion = '4.5.13'
 }
 dependencies {
-        implementation "org.slf4j:slf4j-api:${logbackVersion}"
-        implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
-        implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
-        implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
-        implementation "org.junit.jupiter:junit-jupiter:${junitjupiterVersion}"
-        implementation "org.odpi.egeria:open-connector-framework:${egeriaversion}"
-        implementation "org.odpi.egeria:audit-log-framework:${egeriaversion}"
-        implementation "org.odpi.egeria:repository-services:${egeriaversion}"
-        implementation "org.odpi.egeria:repository-services-apis:${egeriaversion}"
-        implementation "org.odpi.egeria:topic-integrator-api:${egeriaversion}"
-        implementation "org.odpi.egeria:kafka-open-metadata-topic-connector:${egeriaversion}"
-        extralibs 'org.apache.httpcomponents:httpclient:4.5.13'
-        configurations.compile.extendsFrom(configurations.extralibs)
+
+    // Only used for build - already present in server chassis at runtime
+    compileOnly "org.odpi.egeria:audit-log-framework:${egeriaversion}"
+    compileOnly "org.odpi.egeria:data-manager-api:${egeriaversion}"
+    // TODO: this is a dependency on an optional connector. validate, document as needed, consider packaging impact
+
+    compileOnly "org.odpi.egeria:kafka-open-metadata-topic-connector:${egeriaversion}"
+    compileOnly "org.odpi.egeria:open-connector-framework:${egeriaversion}"
+    compileOnly "org.odpi.egeria:repository-services-apis:${egeriaversion}"
+    compileOnly "org.odpi.egeria:repository-services:${egeriaversion}"
+    compileOnly "org.odpi.egeria:topic-integrator-api:${egeriaversion}"
+
+    // Needed for build and run
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    implementation "org.apache.httpcomponents:httpclient:${httpclientVersion}"
+    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+
+    // Only needed to compile test code
+    testCompileOnly "org.junit.jupiter:junit-jupiter-api:${jupiterVersion}"
+    testImplementation "org.odpi.egeria:topic-integrator-api:${egeriaversion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"
+
+    // TODO: Refactor above with custom configurations if cleaner
 }
+
 
 test {
     useJUnitPlatform()
-    dependencies {
-        testCompile("org.junit.jupiter:junit-jupiter-api:5.7.0")
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
-        testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.0"
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
-    }
     testLogging {
         events "passed", "skipped", "failed"
     }
     reports {
-        html.enabled = true
+        html.required = true
     }
     filter {
         includeTestsMatching "*Test"
@@ -70,9 +81,7 @@ tasks.withType(JavaCompile) {
     options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
 }
 
-jar {
-    from {
-        configurations.extralibs.filter{it.exists()}
-        .collect{it.isDirectory() ? it : zipTree(it)}
-    }
+shadowJar {
+    archiveClassifier = 'jar-with-dependencies'
 }
+
