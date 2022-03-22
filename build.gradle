@@ -27,7 +27,7 @@ configurations.all {
 }
 
 group = 'org.odpi.egeria'
-version = '1.0'
+version = '1.0-SNAPSHOT'
 
 ext.name = 'Strimzi topic integration connector'
 description = 'Strimzi topic integration connector for Egeria'
