@@ -21,6 +21,13 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
+          # Publishing attributes for maven central (this step adds to setting.xml)
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          # Keys must be known to maven central - require broad publishing
+          gpg-private-key: ${{ secrets.OSSRH_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
       # Only for a merge into this repo - not a fork, and just for the main branch
       - name: Build (Publish snapshots to maven central)
         if: ${{ github.repository == 'odpi/egeria-connector-integration-topic-strimzi' && github.ref == 'refs/heads/main'}}
@@ -28,11 +35,10 @@ jobs:
         run: ./gradlew publish
         # Import secrets needed for code signing and distribution
         env:
-          OSSRH_GPG_KEYID: ${{ secrets.OSSRH_GPG_KEYID }}
-          OSSRH_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_PASSPHRASE }}
-          OSSRH_GPG_PRIVATE_KEY: ${{ secrets.OSSRH_GPG_PRIVATE_KEY }}
-          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_PASSPHRASE }}
+          # Build and publish - but only for master
       # In other cases just build but don't publish
       - name: Build (no snapshots)
         if: ${{ github.repository != 'odpi/egeria-connector-integration-topic-strimzi' || github.ref != 'refs/heads/main'}}
