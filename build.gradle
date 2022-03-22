@@ -112,6 +112,10 @@ shadowJar {
     archiveClassifier = 'jar-with-dependencies'
 }
 
+// We want to built a jar with dependencies
+build.dependsOn shadowJar
+
+
 // We only have a single artifact for now - this additional metadata is
 // required for publishing to maven central. Only doing signing in 'CI'
 publishing {
