@@ -305,8 +305,11 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
             if (cataloguedTopics.size() > 0) {
                 // uncomment and implement more code if we need to consider paging
                 // startFrom = startFrom + cataloguedTopics.size();
-                strimziTopicNames = strimziTopicElements.keySet();
-
+                if (strimziTopicElements == null) {
+                    strimziTopicNames = new HashSet<>();
+                } else {
+                    strimziTopicNames = strimziTopicElements.keySet();
+                }
                 for (TopicElement cataloguedTopic : cataloguedTopics) {
                     String cataloguedTopicName = cataloguedTopic.getProperties().getQualifiedName();
                     String cataloguedEgeriaTopicGUID = cataloguedTopic.getElementHeader().getGUID();
