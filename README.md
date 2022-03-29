@@ -12,7 +12,7 @@ TODO most of the below information should be moved to egeria-docs.
 # Egeria integration connector for Strimzi Topics
 
 This project contains the Egeria integration connector for [Strimzi](https://strimzi.io/) topics. It obtains the Kafka
-topic information by querying th custom resource definitions in Strimzi.
+topic information by querying the custom resource definitions in Strimzi.
 
 This integration connector needs to be configured. The following steps can be performed using the postman collection to set this connector up.
 The connector takes Kafka topic information including the description, partitions and replicas and pushes that information into
