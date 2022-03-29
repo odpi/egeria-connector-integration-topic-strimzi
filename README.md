@@ -33,7 +33,7 @@ On a terminal,
 
 ### Running locally for testing
 
-You will need to have an omag platform with the connector jar, a metadata server called cocoMDS1 defined.
+You will need to have an OMAG platform with the connector jar, a metadata server called cocoMDS1 defined.
 The below process is how you configure the Strimzi integration connector manually.
 
 Import the [postman collection]([Postman collection](postman/Strimzi%20integration%20connector%20configuration.postman_collection.json)) into [Postman](https://www.postman.com/)
