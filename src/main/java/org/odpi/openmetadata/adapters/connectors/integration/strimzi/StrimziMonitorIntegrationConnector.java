@@ -68,7 +68,11 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
      * @throws ConnectorCheckedException there is a problem within the connector.
      */
     @Override
+<<<<<<< HEAD
     public void start() throws ConnectorCheckedException {
+=======
+    public synchronized void start() throws ConnectorCheckedException {
+>>>>>>> master
         super.start();
 
         final String methodName = "start";
@@ -305,8 +309,16 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
             if (cataloguedTopics.size() > 0) {
                 // uncomment and implement more code if we need to consider paging
                 // startFrom = startFrom + cataloguedTopics.size();
+<<<<<<< HEAD
                 strimziTopicNames = strimziTopicElements.keySet();
 
+=======
+                if (strimziTopicElements == null) {
+                    strimziTopicNames = new HashSet<>();
+                } else {
+                    strimziTopicNames = strimziTopicElements.keySet();
+                }
+>>>>>>> master
                 for (TopicElement cataloguedTopic : cataloguedTopics) {
                     String cataloguedTopicName = cataloguedTopic.getProperties().getQualifiedName();
                     String cataloguedEgeriaTopicGUID = cataloguedTopic.getElementHeader().getGUID();
@@ -488,8 +500,21 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
                 if (includeBasedOnStatusTopicName(statusTopicName) && includeTopicBasedOnName(topicName)) {
                     JsonNode specNode = node.path("spec");
                     if (specNode.isObject()) {
+<<<<<<< HEAD
                         partitions = Integer.parseInt(String.valueOf(specNode.path(PARTITIONS)));
                         replicas = Integer.parseInt(String.valueOf(specNode.path(REPLICAS)));
+=======
+                        try {
+                            partitions = Integer.parseInt(String.valueOf(specNode.path(PARTITIONS)));
+                        } catch (NumberFormatException nfe) {
+                            // catch the exception and leave the variable as null so it will not be included in the topic properties
+                        }
+                        try {
+                        replicas = Integer.parseInt(String.valueOf(specNode.path(REPLICAS)));
+                        } catch (NumberFormatException nfe) {
+                            // catch the exception and leave the variable as null so it will not be included in the topic properties
+                        }
+>>>>>>> master
                     }
 
 //                    JsonNode metadataNode = node.path("metadata");
@@ -562,7 +587,11 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
      * @throws ConnectorCheckedException something failed in the super class
      */
     @Override
+<<<<<<< HEAD
     public void disconnect() throws ConnectorCheckedException {
+=======
+    public synchronized void disconnect() throws ConnectorCheckedException {
+>>>>>>> master
         final String methodName = "disconnect";
 
 
