@@ -13,9 +13,5 @@ pluginManagement {
         //id 'maven-publish' version
     }
 }
-<<<<<<< HEAD
-rootProject.name = 'egeria-integration-connector-strimzi'
-=======
 rootProject.name = 'egeria-connector-integration-topic-strimzi'
->>>>>>> master
 

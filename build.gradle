@@ -3,47 +3,6 @@
  * Copyright Contributors to the ODPi Egeria project.
  */
 
-<<<<<<< HEAD
-repositories {
-        mavenCentral()
-}
-group = 'org.odpi.egeria'
-version = 1
-configurations {
-    extralibs
-}
-apply plugin: 'java-library'
-ext {
-    egeriaversion = '3.2'
-    logbackVersion = '1.2.6'
-    jacksonVersion = '2.13.0'
-    junitjupiterVersion = '5.8.1'
-}
-dependencies {
-        implementation "org.slf4j:slf4j-api:${logbackVersion}"
-        implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
-        implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
-        implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
-        implementation "org.junit.jupiter:junit-jupiter:${junitjupiterVersion}"
-        implementation "org.odpi.egeria:open-connector-framework:${egeriaversion}"
-        implementation "org.odpi.egeria:audit-log-framework:${egeriaversion}"
-        implementation "org.odpi.egeria:repository-services:${egeriaversion}"
-        implementation "org.odpi.egeria:repository-services-apis:${egeriaversion}"
-        implementation "org.odpi.egeria:topic-integrator-api:${egeriaversion}"
-        implementation "org.odpi.egeria:kafka-open-metadata-topic-connector:${egeriaversion}"
-        extralibs 'org.apache.httpcomponents:httpclient:4.5.13'
-        configurations.compile.extendsFrom(configurations.extralibs)
-}
-
-test {
-    useJUnitPlatform()
-    dependencies {
-        testCompile("org.junit.jupiter:junit-jupiter-api:5.7.0")
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.7.0"
-        testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.0"
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
-    }
-=======
 plugins {
     id 'java-library'
     id "com.github.johnrengelman.shadow" version "7.1.2"
@@ -111,16 +70,11 @@ dependencies {
 
 test {
     useJUnitPlatform()
->>>>>>> master
     testLogging {
         events "passed", "skipped", "failed"
     }
     reports {
-<<<<<<< HEAD
-        html.enabled = true
-=======
         html.required = true
->>>>>>> master
     }
     filter {
         includeTestsMatching "*Test"
@@ -132,14 +86,10 @@ test {
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
-<<<<<<< HEAD
-}
-=======
     withJavadocJar()
     withSourcesJar()
 }
 
->>>>>>> master
 // More Java language settings
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -151,14 +101,6 @@ tasks.withType(JavaCompile) {
     options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
 }
 
-<<<<<<< HEAD
-jar {
-    from {
-        configurations.extralibs.filter{it.exists()}
-        .collect{it.isDirectory() ? it : zipTree(it)}
-    }
-}
-=======
 // For later java versions this is recommended - keep conditional in case we want to build on 8
 javadoc {
     if (JavaVersion.current().isJava9Compatible()) {
@@ -249,4 +191,3 @@ if (System.getenv("CI")) {
         useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
     }
 }
->>>>>>> master
