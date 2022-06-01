@@ -33,7 +33,7 @@ ext.name = 'Strimzi topic integration connector'
 description = 'Strimzi topic integration connector for Egeria'
 
 ext {
-    egeriaversion = '3.7'
+    egeriaversion = '3.9'
     slf4jVersion = '1.7.36'
     jacksonVersion = '2.13.2'
     jupiterVersion = '5.8.2'
