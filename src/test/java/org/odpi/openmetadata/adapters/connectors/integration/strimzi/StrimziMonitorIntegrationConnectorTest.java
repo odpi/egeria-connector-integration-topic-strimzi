@@ -8,6 +8,7 @@ import org.odpi.openmetadata.accessservices.datamanager.metadataelements.Element
 import org.odpi.openmetadata.accessservices.datamanager.metadataelements.TopicElement;
 import org.odpi.openmetadata.accessservices.datamanager.properties.TopicProperties;
 import org.odpi.openmetadata.frameworks.connectors.ffdc.ConnectorCheckedException;
+import org.odpi.openmetadata.frameworks.connectors.properties.ConnectionProperties;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -53,6 +54,7 @@ public class StrimziMonitorIntegrationConnectorTest
        Path path = Paths.get(textPath);
        String content = Files.readString(path);
        StrimziMonitorIntegrationConnector  conn = new StrimziMonitorIntegrationConnector();
+       conn.setDescriptionAnnotationField("topic-description");
 
        Map<String, TopicProperties> map = conn.convertStringToTopicMap(content);
 

@@ -38,6 +38,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.*;
 
+import static org.odpi.openmetadata.adapters.connectors.integration.strimzi.StrimziMonitorIntegrationProvider.DESCRIPTION_ANNOTATION_FIELD;
+
 
 /**
  * StrimziMonitorIntegrationConnector catalogues active topics in a Strimzi broker.
@@ -61,6 +63,12 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
 
     private TopicIntegratorContext myContext = null;
 
+    public void setDescriptionAnnotationField(Object descriptionAnnotationField) {
+        this.descriptionAnnotationField = descriptionAnnotationField;
+    }
+
+    private Object descriptionAnnotationField;
+
     /**
      * Indicates that the connector is completely configured and can begin processing.
      * This call can be used to register with non-blocking services.
@@ -76,6 +84,8 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
         myContext = super.getContext();
 
         if (connectionProperties != null) {
+
+            descriptionAnnotationField = connectionProperties.getConfigurationProperties().get(StrimziMonitorIntegrationProvider.DESCRIPTION_ANNOTATION_FIELD);
             EndpointProperties endpoint = connectionProperties.getEndpoint();
 
             if (endpoint != null) {
@@ -503,10 +513,19 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
                         }
                     }
 
-//                    JsonNode metadataNode = node.path("metadata");
+//                    JsonNode metadataNode
+//                    = node.path("metadata");
                     if (metadataNode.isObject()) {
                         JsonNode annotationsNode = metadataNode.path("annotations");
-                        description = annotationsNode.path("topic.description").asText();
+                        if( descriptionAnnotationField != null) {
+                            description = annotationsNode.path(descriptionAnnotationField.toString()).asText();
+                            if( description == null || description == "" ) {
+                                description = getDefaultDescription(topicName);
+                            }
+                        } else {
+                            description = getDefaultDescription(topicName);
+                        }
+//                        description = annotationsNode.path("topic.description").asText();
                     }
 
                     TopicProperties topicProperties = new TopicProperties();
@@ -537,6 +556,16 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
                                                                                                            targetURL));
         }
         return topicMap;
+    }
+
+    /**
+     * Provide a default description for the given Topic.
+     *
+     * @param topicName to retrieve the default description for
+     * @return the default description
+     */
+    private String getDefaultDescription(String topicName) {
+        return String.format("No description available for the topic '%s'.", topicName);
     }
 
     private boolean includeBasedOnStatusTopicName(String statusTopicName) {
