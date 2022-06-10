@@ -304,7 +304,7 @@
         "annotations":{
           "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.agree-kundendaten\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"compression.type\":\"gzip\",\"retention.ms\":2419200000},\"partitions\":1,\"replicas\":1}}\n",
           "team":"vertriebskunde",
-          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+          "topic.description":"Test einer anderen Description zu einem Topic."
         },
         "creationTimestamp":"2021-11-12T14:15:28Z",
         "generation":1,
@@ -424,7 +424,7 @@
         "annotations":{
           "kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"kafka.strimzi.io/v1beta1\",\"kind\":\"KafkaTopic\",\"metadata\":{\"annotations\":{\"team\":\"vertriebskunde\",\"topic.description\":\"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\\u0026R\"},\"labels\":{\"strimzi.io/cluster\":\"kafka\"},\"name\":\"vertriebskunde-services.agree-kundendaten-compacted\",\"namespace\":\"kafka\"},\"spec\":{\"config\":{\"cleanup.policy\":\"compact\",\"retention.ms\":-1},\"partitions\":1,\"replicas\":1}}\n",
           "team":"vertriebskunde",
-          "topic.description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
+          "topic-description":"Replikation von Kundendaten aus PP, Kundenlöschungen,Versorgung von PK/FK-Kennzeichen bei R\u0026R"
         },
         "creationTimestamp":"2021-11-12T14:15:29Z",
         "generation":1,
