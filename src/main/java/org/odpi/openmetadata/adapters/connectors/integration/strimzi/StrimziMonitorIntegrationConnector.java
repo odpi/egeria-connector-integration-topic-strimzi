@@ -63,11 +63,7 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
 
     private TopicIntegratorContext myContext = null;
 
-    public void setDescriptionAnnotationField(Object descriptionAnnotationField) {
-        this.descriptionAnnotationField = descriptionAnnotationField;
-    }
-
-    private Object descriptionAnnotationField;
+   private Object descriptionAnnotationField;
 
     /**
      * Indicates that the connector is completely configured and can begin processing.
@@ -513,19 +509,18 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
                         }
                     }
 
-//                    JsonNode metadataNode
-//                    = node.path("metadata");
                     if (metadataNode.isObject()) {
                         JsonNode annotationsNode = metadataNode.path("annotations");
+                        // Get the topic description from the configured annotation field
+                        // If the property is not set or the field is empty a default description will be generated
                         if( descriptionAnnotationField != null) {
                             description = annotationsNode.path(descriptionAnnotationField.toString()).asText();
-                            if( description == null || description == "" ) {
+                            if( description == null || description.equals( "" ) ) {
                                 description = getDefaultDescription(topicName);
                             }
                         } else {
                             description = getDefaultDescription(topicName);
                         }
-//                        description = annotationsNode.path("topic.description").asText();
                     }
 
                     TopicProperties topicProperties = new TopicProperties();
@@ -629,5 +624,9 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
     Map<String, String> getupdateTopicNameToGuidMap() {
         return updateTopicNameToGuidMap;
     }
+    void setDescriptionAnnotationField(Object descriptionAnnotationField) {
+        this.descriptionAnnotationField = descriptionAnnotationField;
+    }
+
 
 }
