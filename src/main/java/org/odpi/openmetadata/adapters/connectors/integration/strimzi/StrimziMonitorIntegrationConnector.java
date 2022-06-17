@@ -63,7 +63,7 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
 
     private TopicIntegratorContext myContext = null;
 
-   private Object descriptionAnnotationField;
+   private Object descriptionAnnotationField = null;
 
     /**
      * Indicates that the connector is completely configured and can begin processing.
