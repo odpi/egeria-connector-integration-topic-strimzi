@@ -18,6 +18,7 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
+      - uses: gradle/wrapper-validation-action@v1
       - name: Build
         run: ./gradlew build
       # --
