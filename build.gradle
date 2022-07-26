@@ -5,7 +5,7 @@
 
 plugins {
     id 'java-library'
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+//    id "com.github.johnrengelman.shadow" version "7.1.2"
     id 'idea'
     id 'maven-publish'
 }
@@ -33,7 +33,7 @@ ext.name = 'Strimzi topic integration connector'
 description = 'Strimzi topic integration connector for Egeria'
 
 ext {
-    egeriaversion = '3.8'
+    egeriaversion = '3.10'
     slf4jVersion = '1.7.36'
     jacksonVersion = '2.13.3'
     jupiterVersion = '5.8.2'
@@ -108,12 +108,18 @@ javadoc {
     }
 }
 
-shadowJar {
-    archiveClassifier = 'jar-with-dependencies'
+jar {
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
-
-// We want to built a jar with dependencies
-build.dependsOn shadowJar
+//shadowJar {
+//    archiveClassifier = 'jar-with-dependencies'
+//}
+//
+//// We want to built a jar with dependencies
+//build.dependsOn shadowJar
 
 
 // We only have a single artifact for now - this additional metadata is

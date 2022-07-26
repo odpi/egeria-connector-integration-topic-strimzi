@@ -24,9 +24,8 @@ public enum StrimziIntegrationConnectorAuditCode implements AuditLogMessageSet
 {
     CONNECTOR_CONFIGURATION("STRIMZI-INTEGRATION-CONNECTOR-0001",
                           OMRSAuditLogRecordSeverity.INFO,
-                          "The {0} integration connector has been initialized to monitor event broker at URL {1} with templateQualifiedName={2}",
-                          "The connector is designed to monitor changes to the topics managed by the event broker.  " +
-                                  "If the templateQualifiedName is set, it identifies a template entity to use.",
+                          "The {0} integration connector has been initialized to monitor event broker at URL {1}",
+                          "The connector is designed to monitor changes to the topics managed by the event broker.",
                           "No specific action is required.  This message is to confirm the configuration for the integration connector."),
 
     BAD_CONFIGURATION("STRIMZI-INTEGRATION-CONNECTOR-0002",
@@ -42,14 +41,14 @@ public enum StrimziIntegrationConnectorAuditCode implements AuditLogMessageSet
 
     UNABLE_TO_RETRIEVE_TOPICS("STRIMZI-INTEGRATION-CONNECTOR-0003",
                             OMRSAuditLogRecordSeverity.EXCEPTION,
-                            "The {0} integration connector received an unexpected {2} exception when retrieving topics from event broker at {1}.  The error message was {3}",
+                            "The {0} integration connector received an unexpected {2} exception when retrieving topics from event broker {1}.  The error message was {3}",
                                      "The exception is returned to the integration daemon that is hosting this connector to enable it to perform error handling.",
                                      "Use the message in the nested exception to determine the root cause of the error. Once this is " +
                                              "resolved, follow the instructions in the messages produced by the integration daemon to restart this connector."),
 
     RETRIEVED_TOPICS("STRIMZI-INTEGRATION-CONNECTOR-0004",
                               OMRSAuditLogRecordSeverity.INFO,
-                              "The {0} integration connector has retrieved {2} topics from {1}",
+                              "The {0} integration connector has retrieved {1} topics from {3}. {2} topics are matching the topic prefix.",
                               "The connector will maintain these topics as assets.",
                               "No action is required unless there are errors that follow indicating that the topics can not be maintained."),
 
@@ -76,29 +75,11 @@ public enum StrimziIntegrationConnectorAuditCode implements AuditLogMessageSet
                                          "This topic is not catalogued at this time but may succeed later.",
                                  "Use the message in the unexpected exception to determine the root cause of the error and fix it."),
 
-    MISSING_TEMPLATE("STRIMZI-INTEGRATION-CONNECTOR-0015",
-                     OMRSAuditLogRecordSeverity.ERROR,
-                     "The {0} integration connector is unable to retrieve the Topic template with qualified name: {1}",
-                     "The metadata element for the template is not found in the open metadata repositories.  " +
-                             "The template name was configured for the connector.  This means that topics should be catalogued " +
-                             "using the template.  Since the template is missing, topics are not being catalogued.",
-                     "Create the template in the metadata repository.  The connector will catalog the topics during " +
-                             "its next periodic refresh or you can force it to refresh immediately by calling the refresh" +
-                             "operation on the integration daemon."),
-
     TOPIC_CREATED("STRIMZI-INTEGRATION-CONNECTOR-0016",
                       OMRSAuditLogRecordSeverity.INFO,
                      "The {0} integration connector created the Topic {1} ({2}) for a new real-world topic",
                      "The connector created the Topic as part of its monitoring of the topics in the event broker.",
                      "No action is required.  This message is to record the reason why the Topic was created."),
-
-    TOPIC_CREATED_FROM_TEMPLATE("STRIMZI-INTEGRATION-CONNECTOR-0017",
-                      OMRSAuditLogRecordSeverity.INFO,
-                      "The {0} integration connector created the Topic {1} ({2}) for a new real-world topic using template {3} ({4})",
-                      "The connector created the Topic as part of its monitoring of the topics in the event broker.  " +
-                              "The template provides details of additional metadata that should also be attached to the new Topic element.  " +
-                              "It was specified in the templateQualifiedName configuration property of the connector.",
-                      "No action is required.  This message is to record the reason why the Topic was created with the template."),
 
     TOPIC_UPDATED("STRIMZI-INTEGRATION-CONNECTOR-0018",
                       OMRSAuditLogRecordSeverity.INFO,
@@ -115,8 +96,7 @@ public enum StrimziIntegrationConnectorAuditCode implements AuditLogMessageSet
     NO_CONNECTION_PROPERTIES("STRIMZI-INTEGRATION-CONNECTOR-0020",
                       OMRSAuditLogRecordSeverity.ERROR,
                              "The {0} integration connector has been initialized to monitor event broker at URL {1} but there is no configuration properties supplied",
-                             "The connector is designed to monitor changes to the topics managed by the event broker.  " +
-                                     "If the templateQualifiedName is set, it identifies a template entity to use.",
+                             "The connector is designed to monitor changes to the topics managed by the event broker.",
                              "No specific action is required.  This message is to confirm the configuration for the integration connector."),
     REFRESH_CALLED("STRIMZI-INTEGRATION-CONNECTOR-0021",
                              OMRSAuditLogRecordSeverity.INFO,

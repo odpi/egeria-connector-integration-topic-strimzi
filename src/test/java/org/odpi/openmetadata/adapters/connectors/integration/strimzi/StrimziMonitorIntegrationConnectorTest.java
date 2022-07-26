@@ -8,6 +8,7 @@ import org.odpi.openmetadata.accessservices.datamanager.metadataelements.Element
 import org.odpi.openmetadata.accessservices.datamanager.metadataelements.TopicElement;
 import org.odpi.openmetadata.accessservices.datamanager.properties.TopicProperties;
 import org.odpi.openmetadata.frameworks.connectors.ffdc.ConnectorCheckedException;
+import org.odpi.openmetadata.frameworks.connectors.properties.ConnectionProperties;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,8 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -25,24 +25,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class StrimziMonitorIntegrationConnectorTest
 {
 
-    public static final String[] EXPECTED_NAMES = new String[] {  "vertriebskunde-services.agree-vertragsrollen",
-                                                              "vertriebskunde-services.kundenloeschung",
-                                                              "vertriebskunde-services.kundendaten-replikation",
-                                                              "vertriebskunde-services.kundenloeschung-vertriebskunde",
-                                                              "vertriebskunde-services.kundendaten-angereichert-compacted",
-                                                              "vertriebskunde-services.kundendaten-intake-compacted",
-                                                              "vertriebskunde-services.kundenproxy-pkfkregelwerk",
-                                                              "vertriebskunde-services.agree-pkfkregelwerk",
-                                                              "vertriebskunde-services.kundendaten-replikation-dlq",
-                                                              "vertriebskunde-services.kundenproxy-errors",
-                                                              "vertriebskunde-services.agree-personenrollen",
-                                                              "vertriebskunde-services.agree-kundendaten",
-                                                              "vertriebskunde-services.personenrollen",
-                                                              "vertriebskunde-services.dgraph-kundendaten-intake-compacted",
-                                                              "vertriebskunde-services.neo4j-kundendaten-intake-compacted",
-                                                              "vertriebskunde-services.kundenloeschung-agree21",
-                                                              "vertriebskunde-services.agree-kundendaten-compacted",
-                                                              "vertriebskunde-services.kundenproxy-kundendaten-compacted" };
+    public static final String[] EXPECTED_NAMES = new String[] {
+            "kafka.vertriebskunde-services.agree-vertragsrollen",
+            "kafka.vertriebskunde-services.kundenloeschung",
+            "kafka.vertriebskunde-services.kundendaten-replikation",
+            "kafka.vertriebskunde-services.kundenloeschung-vertriebskunde",
+            "kafka.vertriebskunde-services.kundendaten-angereichert-compacted",
+            "kafka.vertriebskunde-services.kundendaten-intake-compacted",
+            "kafka.vertriebskunde-services.kundenproxy-pkfkregelwerk",
+            "kafka.vertriebskunde-services.agree-pkfkregelwerk",
+            "kafka.vertriebskunde-services.kundendaten-replikation-dlq",
+            "kafka.vertriebskunde-services.kundenproxy-errors",
+            "kafka.vertriebskunde-services.agree-personenrollen",
+            "kafka.vertriebskunde-services.agree-kundendaten",
+            "kafka.vertriebskunde-services.personenrollen",
+            "kafka.vertriebskunde-services.dgraph-kundendaten-intake-compacted",
+            "kafka.prefix-vertriebskunde-services.neo4j-kundendaten-intake-compacted",
+            "kafka.vertriebskunde-services.kundenloeschung-agree21",
+            "kafka.vertriebskunde-services.agree-kundendaten-compacted",
+            "kafka.vertriebskunde-services.kundenproxy-kundendaten-compacted" };
     public static final Set<String> EXPECTED_NAMES_SET = new HashSet<>(Arrays.asList(EXPECTED_NAMES));
 
 
@@ -53,13 +54,15 @@ public class StrimziMonitorIntegrationConnectorTest
        Path path = Paths.get(textPath);
        String content = Files.readString(path);
        StrimziMonitorIntegrationConnector  conn = new StrimziMonitorIntegrationConnector();
+       conn.setDescriptionAnnotationField("topic-description");
 
        Map<String, TopicProperties> map = conn.convertStringToTopicMap(content);
+       assertEquals(18, map.size());
 
        for (String topicName:map.keySet()) {
            TopicProperties topicProperties = map.get(topicName);
            assertFalse(topicName.startsWith("__"));
-           assertTrue(EXPECTED_NAMES_SET.contains(topicName));
+           assertTrue(EXPECTED_NAMES_SET.contains(topicName), "This topic name is not excepted: " + topicName);
            Map<String,Object> extendedProperties = topicProperties.getExtendedProperties();
            if (extendedProperties !=null) {
                assertTrue(extendedProperties.get("partitions").equals(1));
@@ -79,6 +82,31 @@ public class StrimziMonitorIntegrationConnectorTest
             assertFalse(msg.contains("}"));
        }
    }
+
+    @Test
+    void testTopixPrefix() throws IOException, ConnectorCheckedException {
+        String textPath = "src/test/resources/SampleGetResponse.json";
+        Path path = Paths.get(textPath);
+        String content = Files.readString(path);
+        StrimziMonitorIntegrationConnector conn = new StrimziMonitorIntegrationConnector();
+        conn.setTopicNamePrefix("prefix");
+        Map<String, TopicProperties> map = conn.convertStringToTopicMap(content);
+        assertEquals(1, map.size());
+
+        conn.setTopicNamePrefix("vertriebskunde-services");
+        map = conn.convertStringToTopicMap(content);
+        assertEquals(17, map.size());
+
+        conn.setTopicNamePrefix("vertriebskunde-services,prefix");
+        map = conn.convertStringToTopicMap(content);
+        assertEquals(18, map.size());
+
+        conn.setTopicNamePrefix("prefix");
+        map = conn.convertStringToTopicMap(content);
+        assertEquals(1, map.size());
+
+    }
+
     @Test
     void testdetermineMutations() throws IOException, ConnectorCheckedException {
         String textPath = "src/test/resources/SampleGetResponse.json";
@@ -88,18 +116,18 @@ public class StrimziMonitorIntegrationConnectorTest
         Map<String, TopicProperties> topicPropertiesMap = conn.convertStringToTopicMap(content);
         List<TopicElement> topicElementList = convertTopicPropertiesMapToTopicElementList(topicPropertiesMap);
         conn.determineMutations(topicElementList, topicPropertiesMap);
-        assertTrue(conn.getupdateTopicNameToGuidMap().keySet().isEmpty());
-        assertTrue(conn.getdeleteTopicNameToGuidMap().keySet().isEmpty());
-        assertTrue(conn.getaddTopicNamesSet().isEmpty());
+        assertTrue(conn.getUpdateTopicNameToGuidMap().keySet().isEmpty());
+        assertTrue(conn.getDeleteTopicNameToGuidMap().keySet().isEmpty());
+        assertTrue(conn.getAddTopicNamesSet().isEmpty());
 
         // test add
         List<TopicElement> topicElementListReduced = new ArrayList<>();
         topicElementListReduced.add(topicElementList.get(0));
 
         conn.determineMutations(topicElementListReduced, topicPropertiesMap);
-        assertTrue(conn.getupdateTopicNameToGuidMap().keySet().isEmpty());
-        assertTrue(conn.getdeleteTopicNameToGuidMap().keySet().isEmpty());
-        assertTrue(conn.getaddTopicNamesSet().size() == 17);
+        assertTrue(conn.getUpdateTopicNameToGuidMap().keySet().isEmpty());
+        assertTrue(conn.getDeleteTopicNameToGuidMap().keySet().isEmpty());
+        assertEquals(17, conn.getAddTopicNamesSet().size());
 
         // reset connection to clean
         conn = new StrimziMonitorIntegrationConnector();
@@ -121,9 +149,9 @@ public class StrimziMonitorIntegrationConnectorTest
         topicElementList.add(newTopicElement);
 
         conn.determineMutations(topicElementList, topicPropertiesMap);
-        assertTrue(conn.getupdateTopicNameToGuidMap().keySet().isEmpty());
-        assertTrue(conn.getdeleteTopicNameToGuidMap().keySet().size() == 1);
-        assertTrue(conn.getaddTopicNamesSet().isEmpty());
+        assertTrue(conn.getUpdateTopicNameToGuidMap().keySet().isEmpty());
+        assertTrue(conn.getDeleteTopicNameToGuidMap().keySet().size() == 1);
+        assertTrue(conn.getAddTopicNamesSet().isEmpty());
 
         // reset connection to clean
         conn = new StrimziMonitorIntegrationConnector();
@@ -136,9 +164,9 @@ public class StrimziMonitorIntegrationConnectorTest
         topicPropertiesMap.put("aaa", topicProperties);
 
         conn.determineMutations(topicElementList, topicPropertiesMap);
-        assertTrue(conn.getupdateTopicNameToGuidMap().keySet().size() == 1);
-        assertTrue(conn.getdeleteTopicNameToGuidMap().keySet().isEmpty());
-        assertTrue(conn.getaddTopicNamesSet().isEmpty());
+        assertTrue(conn.getUpdateTopicNameToGuidMap().keySet().size() == 1);
+        assertTrue(conn.getDeleteTopicNameToGuidMap().keySet().isEmpty());
+        assertTrue(conn.getAddTopicNamesSet().isEmpty());
 
 
     }

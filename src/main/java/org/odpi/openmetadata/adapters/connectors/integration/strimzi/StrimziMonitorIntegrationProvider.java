@@ -20,10 +20,9 @@ public class StrimziMonitorIntegrationProvider extends ConnectorProviderBase
     private static final String connectorTypeDisplayName   = "Strimzi Monitor Integration Connector";
     private static final String connectorTypeDescription   = "Connector maintains a list of Strimzi Topic assets associated with an event broker.";
 
-    //TODO do we need this ?
-    static final String TEMPLATE_QUALIFIED_NAME_CONFIGURATION_PROPERTY = "templateQualifiedName";
     static final String TOKEN_PROPERTY = "token";
     static final String TOPIC_NAME_PREFIX = "topicNamePrefix";
+    static final String DESCRIPTION_ANNOTATION_FIELD = "descriptionAnnotationField";
 
     /**
      * Constructor used to initialize the ConnectorProvider with the Java class name of the specific
@@ -44,9 +43,9 @@ public class StrimziMonitorIntegrationProvider extends ConnectorProviderBase
         connectorType.setConnectorProviderClassName(this.getClass().getName());
 
         List<String> recognizedConfigurationProperties = new ArrayList<>();
-        recognizedConfigurationProperties.add(TEMPLATE_QUALIFIED_NAME_CONFIGURATION_PROPERTY);
         recognizedConfigurationProperties.add(TOKEN_PROPERTY);
         recognizedConfigurationProperties.add(TOPIC_NAME_PREFIX);
+        recognizedConfigurationProperties.add(DESCRIPTION_ANNOTATION_FIELD);
 
         connectorType.setRecognizedConfigurationProperties(recognizedConfigurationProperties);
 

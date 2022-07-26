@@ -41,10 +41,17 @@ public enum StrimziIntegrationConnectorErrorCode implements ExceptionMessageSet
                                "The {0} integration connector got a {1} Exception, for rest target URL {2}, The message was: {3}",
                                "The connector is unable to catalog one or more topics as the rest call to Strimzi failed.",
                                "Use the details from the rest failure error message, to amend the endpoint and token to match the running Strimzi system and retry."),
+
     INVALID_URL_IN_CONFIGURATION(400, "STRIMZI-INTEGRATION-CONNECTOR-400-004",
                                 "The {0} integration connector has been initialized to monitor event broker at URL {1} but the endpoint address is not a valid URL",
-                                "The connector requires the a valid endpoint address to be specified in the connection properties.",
-                                "Supply a well formed endpoint address as a connection properties ."),
+                                "The connector requires a valid endpoint address to be specified in the connection properties.",
+                                "Supply a well formed endpoint address as a connection properties."),
+
+    MISSING_MANDATORY_CONFIGURATION(400, "STRIMZI-INTEGRATION-CONNECTOR-400-005",
+            "The {0} integration connector is missing the configuration key {1}.",
+            "The connector requires a valid configuration parameter.",
+            "Supply all mandatory configuration keys."
+            ),
 
     UNEXPECTED_EXCEPTION(500, "STRIMZI-INTEGRATION-CONNECTOR-500-001",
              "The {0} integration connector received an unexpected exception {1} when cataloguing topics; the error message was: {2}",

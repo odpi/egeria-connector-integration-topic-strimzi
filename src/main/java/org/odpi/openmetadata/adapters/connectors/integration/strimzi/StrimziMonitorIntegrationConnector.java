@@ -12,11 +12,11 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.TrustStrategy;
 import org.odpi.openmetadata.accessservices.datamanager.metadataelements.TopicElement;
-import org.odpi.openmetadata.accessservices.datamanager.properties.TemplateProperties;
 import org.odpi.openmetadata.accessservices.datamanager.properties.TopicProperties;
 import org.odpi.openmetadata.adapters.connectors.integration.strimzi.ffdc.StrimziIntegrationConnectorAuditCode;
 import org.odpi.openmetadata.adapters.connectors.integration.strimzi.ffdc.StrimziIntegrationConnectorErrorCode;
 import org.odpi.openmetadata.frameworks.auditlog.messagesets.AuditLogMessageDefinition;
+import org.odpi.openmetadata.frameworks.auditlog.messagesets.ExceptionMessageDefinition;
 import org.odpi.openmetadata.frameworks.connectors.ffdc.ConnectorCheckedException;
 import org.odpi.openmetadata.frameworks.connectors.ffdc.InvalidParameterException;
 import org.odpi.openmetadata.frameworks.connectors.ffdc.PropertyServerException;
@@ -24,7 +24,8 @@ import org.odpi.openmetadata.frameworks.connectors.ffdc.UserNotAuthorizedExcepti
 import org.odpi.openmetadata.frameworks.connectors.properties.EndpointProperties;
 import org.odpi.openmetadata.integrationservices.topic.connector.TopicIntegratorConnector;
 import org.odpi.openmetadata.integrationservices.topic.connector.TopicIntegratorContext;
-import org.odpi.openmetadata.frameworks.auditlog.messagesets.ExceptionMessageDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -37,6 +38,8 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 
 
 /**
@@ -51,15 +54,17 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
     private String templateQualifiedName = null;
     private String token = null;
     private String topicNamePrefix = null;
-    private String templateGUID = null;
+    private String[] topicNamePrefixList = null;
     private String targetURL = null;
     private Set<String> addTopicNamesSet = new HashSet<>();
     private Map<String, String> deleteTopicNameToGuidMap = new HashMap<>();
     private Map<String, String> updateTopicNameToGuidMap = new HashMap<>();
 
-    private List<TopicElement> cataloguedTopics;
-
     private TopicIntegratorContext myContext = null;
+    private Object descriptionAnnotationField = null;
+    private final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+
+    public static final Logger log = LoggerFactory.getLogger(StrimziMonitorIntegrationConnector.class);
 
     /**
      * Indicates that the connector is completely configured and can begin processing.
@@ -76,6 +81,7 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
         myContext = super.getContext();
 
         if (connectionProperties != null) {
+            descriptionAnnotationField = connectionProperties.getConfigurationProperties().get(StrimziMonitorIntegrationProvider.DESCRIPTION_ANNOTATION_FIELD);
             EndpointProperties endpoint = connectionProperties.getEndpoint();
 
             if (endpoint != null) {
@@ -83,62 +89,38 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
                 try {
                     new URI(targetURL);
                 } catch (URISyntaxException e) {
-                    throwException(StrimziIntegrationConnectorErrorCode.INVALID_URL_IN_CONFIGURATION,"Endpoint address" );
+                    throwException(StrimziIntegrationConnectorErrorCode.INVALID_URL_IN_CONFIGURATION, "Endpoint address");
                 }
 
             }
             Map<String, Object> configurationProperties = connectionProperties.getConfigurationProperties();
-            templateQualifiedName = (String) configurationProperties.get(StrimziMonitorIntegrationProvider.TEMPLATE_QUALIFIED_NAME_CONFIGURATION_PROPERTY);
-            // TODO check that this exists - manditory ???
-            token = (String) configurationProperties.get(StrimziMonitorIntegrationProvider.TOKEN_PROPERTY);
-            topicNamePrefix = (String) configurationProperties.get(StrimziMonitorIntegrationProvider.TOPIC_NAME_PREFIX);
+
+            if (configurationProperties.containsKey(StrimziMonitorIntegrationProvider.TOKEN_PROPERTY)) {
+                token = configurationProperties.get(StrimziMonitorIntegrationProvider.TOKEN_PROPERTY).toString();
+            } else {
+                throwException(StrimziIntegrationConnectorErrorCode.MISSING_MANDATORY_CONFIGURATION, StrimziMonitorIntegrationProvider.TOKEN_PROPERTY);
+            }
+
             /*
              * Record the configuration
              */
             if (auditLog != null) {
                 // do not record the token in the log which could be sensitive
                 auditLog.logMessage(methodName,
-                                    StrimziIntegrationConnectorAuditCode.CONNECTOR_CONFIGURATION.getMessageDefinition(connectorName,
-                                                                                                                      targetURL,
-                                                                                                                      templateQualifiedName
-                                                                                                                     ));
+                        StrimziIntegrationConnectorAuditCode.CONNECTOR_CONFIGURATION.getMessageDefinition(connectorName,
+                                targetURL,
+                                templateQualifiedName
+                        ));
             }
         } else {
             if (auditLog != null) {
                 auditLog.logMessage(methodName,
-                                    StrimziIntegrationConnectorAuditCode.NO_CONNECTION_PROPERTIES.getMessageDefinition(connectorName,
-                                                                                                                       targetURL));
+                        StrimziIntegrationConnectorAuditCode.NO_CONNECTION_PROPERTIES.getMessageDefinition(connectorName,
+                                targetURL));
             }
             throwException(StrimziIntegrationConnectorErrorCode.NO_CONNECTION_CONFIGURATION, StrimziMonitorIntegrationProvider.TOKEN_PROPERTY);
         }
 
-
-
-        /*
-         * Retrieve the template if one has been requested
-         */
-        if (templateQualifiedName != null) {
-            try {
-                List<TopicElement> templateElements = myContext.getTopicsByName(templateQualifiedName, 0, 0);
-
-                if (templateElements != null) {
-                    for (TopicElement templateElement : templateElements) {
-                        String qualifiedName = templateElement.getProperties().getQualifiedName();
-
-                        if (templateQualifiedName.equals(qualifiedName)) {
-                            templateGUID = templateElement.getElementHeader().getGUID();
-                        }
-                    }
-                }
-            } catch (Exception error) {
-                if (auditLog != null) {
-                    auditLog.logException(methodName,
-                                          StrimziIntegrationConnectorAuditCode.MISSING_TEMPLATE.getMessageDefinition(connectorName, templateQualifiedName),
-                                          error);
-                }
-
-            }
-        }
     }
 
     /**
@@ -154,17 +136,17 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
         ExceptionMessageDefinition messageDefinition = errorCode.getMessageDefinition(propertyName);
         // create a subclass
         ConnectorCheckedException error = new ConnectorCheckedException(messageDefinition,
-                                                                        this.getClass().getName(),
-                                                                        methodName);
+                this.getClass().getName(),
+                methodName);
 
         if (auditLog != null) {
             AuditLogMessageDefinition auditLogMessageDefinitionMessage =
                     StrimziIntegrationConnectorAuditCode.BAD_CONFIGURATION.getMessageDefinition(connectorName,
-                                                                                                "Configuration error", targetURL, methodName, error.getMessage());
+                            "Configuration error", targetURL, methodName, error.getMessage());
 
             auditLog.logException(methodName,
-                                  auditLogMessageDefinitionMessage,
-                                  error);
+                    auditLogMessageDefinitionMessage,
+                    error);
         }
 
         throw error;
@@ -177,7 +159,7 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
      * as well as any external REST API calls to explicitly refresh the connector.
      * <p>
      * This method performs two sweeps.  It first retrieves the files in the directory and validates that are in the
-     * catalog - adding or updating them if necessary.  The second sweep is to ensure that all of the assets catalogued
+     * catalog - adding or updating them if necessary.  The second sweep is to ensure that all the assets catalogued
      * in this directory actually exist on the file system.
      *
      * @throws ConnectorCheckedException there is a problem with the connector.  It is not able to refresh the metadata.
@@ -185,13 +167,17 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
     @Override
     public void refresh() throws ConnectorCheckedException {
         final String methodName = "refresh";
+        long currentTimeMillis = System.currentTimeMillis();
         if (auditLog != null) {
             auditLog.logMessage(methodName,
-                                StrimziIntegrationConnectorAuditCode.REFRESH_CALLED.getMessageDefinition(connectorName));
+                    StrimziIntegrationConnectorAuditCode.REFRESH_CALLED.getMessageDefinition(connectorName));
+        }
+        if (!atomicBoolean.compareAndSet(false, true)) {
+            return;
         }
         //clear out the maps
         updateTopicNameToGuidMap = new HashMap<>();
-        deleteTopicNameToGuidMap  = new HashMap<>();
+        deleteTopicNameToGuidMap = new HashMap<>();
         // clear the set
         addTopicNamesSet = new HashSet<>();
         try {
@@ -208,9 +194,8 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
              * topics that are not catalogued.
              */
             int startFrom = 0;
-            cataloguedTopics = myContext.getMyTopics(startFrom, 0);
+            List<TopicElement> cataloguedTopics = myContext.getMyTopics(startFrom, 0);
 
-            // populate the delete map the update map and the add set
             determineMutations(cataloguedTopics, strimziTopicElements);
 
             Set<String> updateTopicNames = updateTopicNameToGuidMap.keySet();
@@ -220,7 +205,14 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
             for (String topicName : updateTopicNames) {
                 TopicProperties topicProperties = strimziTopicElements.get(topicName);
                 // Assume not a merge update.
-                myContext.updateTopic(updateTopicNameToGuidMap.get(topicName), false, topicProperties);
+                String guid = updateTopicNameToGuidMap.get(topicName);
+                myContext.updateTopic(guid, false, topicProperties);
+                if (auditLog != null) {
+                    auditLog.logMessage(methodName,
+                            StrimziIntegrationConnectorAuditCode.TOPIC_UPDATED.getMessageDefinition(connectorName,
+                                    topicName,
+                                    guid));
+                }
             }
             Set<String> deleteTopicNames = deleteTopicNameToGuidMap.keySet();
             /*
@@ -234,54 +226,40 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
              */
             for (String topicName : addTopicNamesSet) {
                 String topicGUID;
-                if (templateGUID == null) {
 
-                    TopicProperties topicProperties = strimziTopicElements.get(topicName);
-                    topicGUID = myContext.createTopic(topicProperties);
+                TopicProperties topicProperties = strimziTopicElements.get(topicName);
+                topicGUID = myContext.createTopic(topicProperties);
 
-                    if (topicGUID != null) {
-                        if (auditLog != null) {
-                            auditLog.logMessage(methodName,
-                                                StrimziIntegrationConnectorAuditCode.TOPIC_CREATED.getMessageDefinition(connectorName,
-                                                                                                                        topicName,
-                                                                                                                        topicGUID));
-                        }
-                    }
-                } else {
-                    TemplateProperties templateProperties = new TemplateProperties();
-
-                    templateProperties.setQualifiedName(topicName);
-                    topicGUID = myContext.createTopicFromTemplate(templateGUID, templateProperties);
-                    if (topicGUID != null) {
-                        if (auditLog != null) {
-                            auditLog.logMessage(methodName,
-                                                StrimziIntegrationConnectorAuditCode.TOPIC_CREATED_FROM_TEMPLATE.getMessageDefinition(connectorName,
-                                                                                                                                      topicName,
-                                                                                                                                      topicGUID,
-                                                                                                                                      templateQualifiedName,
-                                                                                                                                      templateGUID));
-                        }
+                if (topicGUID != null) {
+                    if (auditLog != null) {
+                        auditLog.logMessage(methodName,
+                                StrimziIntegrationConnectorAuditCode.TOPIC_CREATED.getMessageDefinition(connectorName,
+                                        topicName,
+                                        topicGUID));
                     }
                 }
             }
         } catch (Exception error) {
             if (auditLog != null) {
                 auditLog.logException(methodName,
-                                      StrimziIntegrationConnectorAuditCode.UNABLE_TO_RETRIEVE_TOPICS.getMessageDefinition(connectorName,
-                                                                                                                          "localhost:9092",
-                                                                                                                          error.getClass().getName(),
-                                                                                                                          error.getMessage()),
-                                      error);
+                        StrimziIntegrationConnectorAuditCode.UNABLE_TO_RETRIEVE_TOPICS.getMessageDefinition(connectorName,
+                                ">>the associated event broker<<",
+                                error.getClass().getName(),
+                                error.getMessage()),
+                        error);
 
 
             }
 
             throw new ConnectorCheckedException(StrimziIntegrationConnectorErrorCode.UNEXPECTED_EXCEPTION.getMessageDefinition(connectorName,
-                                                                                                                               error.getClass().getName(),
-                                                                                                                               error.getMessage()),
-                                                this.getClass().getName(),
-                                                methodName,
-                                                error);
+                    error.getClass().getName(),
+                    error.getMessage()),
+                    this.getClass().getName(),
+                    methodName,
+                    error);
+        } finally {
+            atomicBoolean.set(false);
+            log.info("Refresh method finished. Duration: (ms)" + (System.currentTimeMillis()-currentTimeMillis));
         }
     }
 
@@ -300,16 +278,12 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
 
             /*
              * Loop through catalogued topics to decide whether to update or delete by populating the maps.
-             * The delete and update maps need the Egeria guid to be able to action the mutation.
              */
             if (cataloguedTopics.size() > 0) {
                 // uncomment and implement more code if we need to consider paging
                 // startFrom = startFrom + cataloguedTopics.size();
-                if (strimziTopicElements == null) {
-                    strimziTopicNames = new HashSet<>();
-                } else {
-                    strimziTopicNames = strimziTopicElements.keySet();
-                }
+                strimziTopicNames = strimziTopicElements.keySet();
+
                 for (TopicElement cataloguedTopic : cataloguedTopics) {
                     String cataloguedTopicName = cataloguedTopic.getProperties().getQualifiedName();
                     String cataloguedEgeriaTopicGUID = cataloguedTopic.getElementHeader().getGUID();
@@ -346,6 +320,7 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
 
     /**
      * Determine is an update is required.
+     *
      * @param strimziTopicProperties strimzi topic information
      * @param cataloguedTopicElement cataloged topic information
      * @return true if update required
@@ -358,11 +333,11 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
         Map<String, Object> cataloguedExtendedProperties = cataloguedTopicElement.getProperties().getExtendedProperties();
         if (strimziExtendedProperties != null && cataloguedExtendedProperties != null) {
             if (!Objects.equals(strimziExtendedProperties.get(REPLICAS),
-                                cataloguedExtendedProperties.get(REPLICAS))) {
+                    cataloguedExtendedProperties.get(REPLICAS))) {
                 doUpdate = true;
             }
             if (!Objects.equals(strimziExtendedProperties.get(PARTITIONS),
-                                cataloguedExtendedProperties.get(PARTITIONS))) {
+                    cataloguedExtendedProperties.get(PARTITIONS))) {
                 doUpdate = true;
             }
         } else if (strimziExtendedProperties != null) {
@@ -388,15 +363,15 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
 
         if (auditLog != null) {
             auditLog.logMessage(methodName,
-                                StrimziIntegrationConnectorAuditCode.TOPIC_DELETED.getMessageDefinition(connectorName,
-                                                                                                        cataloguedTopicName,
-                                                                                                        cataloguedEgeriaTopicGUID));
+                    StrimziIntegrationConnectorAuditCode.TOPIC_DELETED.getMessageDefinition(connectorName,
+                            cataloguedTopicName,
+                            cataloguedEgeriaTopicGUID));
         }
     }
 
 
     public RestTemplate restTemplate()
-    throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+            throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
 
         SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom()
@@ -435,21 +410,36 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
 
         HttpEntity<?> request = new HttpEntity<>(authHeaders);
         RestTemplate restTemplate;
+        ResponseEntity<String> responseEntity;
 
         try {
             restTemplate = restTemplate();
+            responseEntity = restTemplate.exchange(targetURL, HttpMethod.GET, request, String.class);
         } catch (Exception error) {
             throw new ConnectorCheckedException(StrimziIntegrationConnectorErrorCode.ERROR_ON_STRIMZI_REST_CALL.getMessageDefinition(connectorName,
-                                                                                                                                      targetURL, error.getClass().getName(), error.getMessage()),
-                                                this.getClass().getName(),
-                                                methodName,
-                                                error);
+                    targetURL, error.getClass().getName(), error.getMessage()),
+                    this.getClass().getName(),
+                    methodName,
+                    error);
         }
-        ResponseEntity<String> responseEntity = restTemplate.exchange(targetURL, HttpMethod.GET, request, String.class);
 
+        if (null == responseEntity.getBody() || responseEntity.getBody().isEmpty()) {
+            throw new ConnectorCheckedException(StrimziIntegrationConnectorErrorCode.ERROR_ON_STRIMZI_REST_CALL
+                    .getMessageDefinition(connectorName,
+                            targetURL,
+                            this.getClass().getName(), "received empty body"),
+                    this.getClass().getName(),
+                    methodName);
+        }
+        if (responseEntity.getStatusCode().value() != 200) {
+            throw new ConnectorCheckedException(StrimziIntegrationConnectorErrorCode.ERROR_ON_STRIMZI_REST_CALL
+                    .getMessageDefinition(connectorName,
+                            targetURL,
+                            this.getClass().getName(), String.format("received status code %d", responseEntity.getStatusCode().value())),
+                    this.getClass().getName(),
+                    methodName);
+        }
         String jsonString = responseEntity.getBody();
-
-        //System.err.println("Rest call got this response " + jsonString);
 
         return convertStringToTopicMap(jsonString);
 
@@ -466,57 +456,64 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
             root = mapper.readTree(jsonString);
         } catch (JsonProcessingException error) {
             throw new ConnectorCheckedException(StrimziIntegrationConnectorErrorCode.ERROR_PARSING_REST_RESPONSE.getMessageDefinition(connectorName,
-                                                                                                                                      targetURL, error.getClass().getName(), error.getMessage()),
-                                                this.getClass().getName(),
-                                                methodName,
-                                                error);
+                    targetURL, error.getClass().getName(), error.getMessage()),
+                    this.getClass().getName(),
+                    methodName,
+                    error);
         }
         JsonNode items = root.path("items");
         if (items.isArray()) {
             for (JsonNode node : items) {
                 String topicName = null;
-                String statusTopicName = null;
+                String specTopicName = null;
                 String description = null;
                 Integer partitions = null;
                 Integer replicas = null;
-                JsonNode statusNode = node.path("status");
-                if (statusNode.isObject()) {
-                    statusTopicName = statusNode.path("topicName").asText();
-                }
+                String namespace = null;
+                String qualifiedName = null;
+
                 JsonNode metadataNode = node.path("metadata");
                 if (metadataNode.isObject()) {
                     topicName = metadataNode.path("name").asText();
-
+                    namespace = metadataNode.path("namespace").asText();
                 }
-                if (includeBasedOnStatusTopicName(statusTopicName) && includeTopicBasedOnName(topicName)) {
-                    JsonNode specNode = node.path("spec");
-                    if (specNode.isObject()) {
-                        try {
-                            partitions = Integer.parseInt(String.valueOf(specNode.path(PARTITIONS)));
-                        } catch (NumberFormatException nfe) {
-                            // catch the exception and leave the variable as null so it will not be included in the topic properties
-                        }
-                        try {
-                        replicas = Integer.parseInt(String.valueOf(specNode.path(REPLICAS)));
-                        } catch (NumberFormatException nfe) {
-                            // catch the exception and leave the variable as null so it will not be included in the topic properties
-                        }
-                    }
+                JsonNode specNode = node.path("spec");
+                if (specNode.isObject()) {
+                    partitions = Integer.parseInt(String.valueOf(specNode.path(PARTITIONS)));
+                    replicas = Integer.parseInt(String.valueOf(specNode.path(REPLICAS)));
+                    specTopicName = specNode.path("topicName").asText();
+                }
 
-//                    JsonNode metadataNode = node.path("metadata");
+                if (!isStrimziInternal(specTopicName) && includeTopicBasedOnName(topicName)) {
+
                     if (metadataNode.isObject()) {
                         JsonNode annotationsNode = metadataNode.path("annotations");
-                        description = annotationsNode.path("topic.description").asText();
+                        // Get the topic description from the configured annotation field
+                        // If the property is not set or the field is empty a default description will be generated
+                        if( descriptionAnnotationField != null) {
+                            description = annotationsNode.path(descriptionAnnotationField.toString()).asText();
+                            if( description == null || description.equals( "" ) ) {
+                                description = getDefaultDescription(topicName);
+                            }
+                        } else {
+                            description = getDefaultDescription(topicName);
+                        }
                     }
 
                     TopicProperties topicProperties = new TopicProperties();
 
                     topicProperties.setDescription(description);
-                    topicProperties.setQualifiedName(topicName);
-                    topicProperties.setDisplayName(topicName);
+                    qualifiedName = namespace + "." + topicName;
+                    topicProperties.setQualifiedName(qualifiedName);
+                    String displayName = topicName;
+                    if (specTopicName != null && !specTopicName.isBlank()) {
+                        //If specification topic name ist set, we use this because this is the actual topic name in Kafka
+                        displayName = specTopicName;
+                    }
+                    topicProperties.setDisplayName(displayName);
                     // specify the type name
                     topicProperties.setTypeName("KafkaTopic");
-                    // the KafkaTopic has the attributes maximumPartitions and maximumReplicas
+                    // the KafkaTopic has the attributes partitions and replicas
                     // KafkaTopic extends the Topic type, these attributes need to be sent through as extendedProperties
                     Map<String, Object> extendedProperties = new HashMap<>();
                     if (partitions != null) {
@@ -526,44 +523,63 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
                         extendedProperties.put(REPLICAS, replicas);
                     }
                     topicProperties.setExtendedProperties(extendedProperties);
-                    topicMap.put(topicName, topicProperties);
+                    topicMap.put(qualifiedName, topicProperties);
                 }
             }
         }
         if (auditLog != null) {
             auditLog.logMessage(methodName,
-                                StrimziIntegrationConnectorAuditCode.RETRIEVED_TOPICS.getMessageDefinition(connectorName,
-                                                                                                           Integer.toString(topicMap.size()),
-                                                                                                           targetURL));
+                    StrimziIntegrationConnectorAuditCode.RETRIEVED_TOPICS.getMessageDefinition(connectorName,
+                            Integer.toString(items.size()),
+                            Integer.toString(topicMap.size()),
+                            targetURL));
         }
         return topicMap;
     }
 
-    private boolean includeBasedOnStatusTopicName(String statusTopicName) {
-        boolean include = true;
-        if (statusTopicName != null && statusTopicName.startsWith("__")) {
-            include = false;
-        }
-        return include;
+    /**
+     * Provide a default description for the given Topic.
+     *
+     * @param topicName to retrieve the default description for
+     * @return the default description
+     */
+    private String getDefaultDescription(String topicName) {
+        return String.format("No description available for the topic '%s'.", topicName);
     }
 
     /**
      * Include this topic name only if it is not null, not empty, and starts with the
      * requested prefix if there is one.
      *
-     * @param topicName to check
+     * @param topicName value to check
      * @return whether to include this topicName
      */
     private boolean includeTopicBasedOnName(String topicName) {
-        boolean include = false;
-        if (topicName != null) {
-            if (topicNamePrefix == null || topicName.length() == 0) {
-                include = true;
-            } else if (topicName.startsWith(topicNamePrefix)) {
-                include = true;
+        if (topicName == null || topicName.isBlank()) {
+            return false;
+        }
+        if (topicNamePrefixList == null) {
+            return true;
+        }
+        for (String topicNamePrefixElement : topicNamePrefixList){
+            if (topicName.startsWith(topicNamePrefixElement)) {
+                return true;
             }
         }
-        return include;
+        return false;
+    }
+
+    /**
+     * Identifies technical topics used by Strimzi or Kafka.
+     *
+     * @param statusTopicName value of the topicName attribut of the status object
+     * @return whether to include this topic
+     */
+    private boolean isStrimziInternal(String statusTopicName) {
+        if (statusTopicName == null) {
+            return false;
+        }
+        return statusTopicName.startsWith("__");
     }
 
 
@@ -573,13 +589,13 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
      * @throws ConnectorCheckedException something failed in the super class
      */
     @Override
-    public synchronized void disconnect() throws ConnectorCheckedException {
+    public void disconnect() throws ConnectorCheckedException {
         final String methodName = "disconnect";
 
 
         if (auditLog != null) {
             auditLog.logMessage(methodName,
-                                StrimziIntegrationConnectorAuditCode.CONNECTOR_STOPPING.getMessageDefinition(connectorName));
+                    StrimziIntegrationConnectorAuditCode.CONNECTOR_STOPPING.getMessageDefinition(connectorName));
         }
 
         super.disconnect();
@@ -591,14 +607,38 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
     void setTargetURL(String targetURL) {
         this.targetURL = targetURL;
     }
-    Set<String> getaddTopicNamesSet() {
+
+    /**
+     * Fills the topicNamePrefixList list of prefixes. The list contains strings without null or empty elements.
+     * If no prefix is set, the list is set to null.
+     * @param topicNamePrefix comma-separated list of topic name prefixes to filter
+     */
+    void setTopicNamePrefix(String topicNamePrefix) {
+        this.topicNamePrefix = topicNamePrefix;
+        if (topicNamePrefix != null && !topicNamePrefix.isBlank()) {
+            topicNamePrefixList = topicNamePrefix.split(",");
+            topicNamePrefixList = Arrays.stream(topicNamePrefixList).filter(s -> s != null && !s.isBlank()).toArray(String[]::new);
+            if (topicNamePrefixList.length == 0) {
+                topicNamePrefixList = null;
+            }
+        } else {
+            topicNamePrefixList = null;
+        }
+    }
+
+    Set<String> getAddTopicNamesSet() {
         return addTopicNamesSet;
     }
-    Map<String, String> getdeleteTopicNameToGuidMap() {
+
+    Map<String, String> getDeleteTopicNameToGuidMap() {
         return deleteTopicNameToGuidMap;
     }
-    Map<String, String> getupdateTopicNameToGuidMap() {
+
+    Map<String, String> getUpdateTopicNameToGuidMap() {
         return updateTopicNameToGuidMap;
     }
 
+    void setDescriptionAnnotationField(Object descriptionAnnotationField) {
+        this.descriptionAnnotationField = descriptionAnnotationField;
+    }
 }
