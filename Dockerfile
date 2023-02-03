@@ -1,20 +1,16 @@
-# NOTE: this Dockerfile is not used by the CI pipeline
-# on openshift because we want to add multiple projects
-# to the same image later.
+# SPDX-License-Identifier: Apache-2.0
+# Copyright Contributors to the Egeria project
 
-FROM quay.io/ibmgaragecloud/gradle:jdk11 as build
+# This is the EGERIA version - typically passed from the ci/cd pipeline
+ARG EGERIA_BASE_IMAGE=quay.io/odpi/egeria:latest
 
-# Copy files
-COPY gradle gradle
-COPY settings.gradle .
-COPY gradlew .
-COPY build.gradle .
-COPY src src
+FROM ${EGERIA_BASE_IMAGE}
 
-# Build application and test it
-RUN ./gradlew assemble --no-daemon && \
-    ./gradlew testClasses --no-daemon
+# Labels from https://github.com/opencontainers/image-spec/blob/master/annotations.md#pre-defined-annotation-keys (with additions prefixed    ext)
+# We should inherit all the base labels from the egeria image and only overwrite what is necessary.
+LABEL org.opencontainers.image.description = "Egeria with Strimzi connector" \
+      org.opencontainers.image.documentation = "https://github.com/odpi/egeria-connector-integration-topic-strimzi"
 
-# Get Egeria base image and add build artifacts
-FROM quay.io/odpi/egeria:latest
-COPY --from=build /home/gradle/build /strimzi/build
+# This assumes we only have one uber jar (ensure old versions cleaned out beforehand). Avoids having to pass connector version
+COPY build/libs/egeria-connector-integration-topic-strimzi-*-with-dependencies.jar /deployments/server/lib
+
