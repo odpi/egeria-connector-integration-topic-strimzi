@@ -17,3 +17,12 @@ updates:
     open-pull-requests-limit: 25
     reviewers:
       - planetf1
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "03:00"
+      timezone: "Etc/UTC"
+    open-pull-requests-limit: 5
+    reviewers:
+      - planetf1
