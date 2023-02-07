@@ -35,7 +35,7 @@ description = 'Strimzi topic integration connector for Egeria'
 ext {
     egeriaversion = '3.10'
     slf4jVersion = '1.7.36'
-    jacksonVersion = '2.13.3'
+    jacksonVersion = '2.14.2'
     jupiterVersion = '5.9.0'
     httpclientVersion = '4.5.13'
 }
