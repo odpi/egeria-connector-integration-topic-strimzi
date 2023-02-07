@@ -14,5 +14,7 @@ ARG CONNECTOR_VERSION=0.1-SNAPSHOT
 LABEL org.opencontainers.image.description = "Egeria with Strimzi connector" \
       org.opencontainers.image.documentation = "https://github.com/odpi/egeria-connector-integration-topic-strimzi"
 
+ENV CONNECTOR_VERSION ${CONNECTOR_VERSION}
+
 COPY build/libs/egeria-connector-integration-topic-strimzi-${CONNECTOR_VERSION}-with-dependencies.jar /deployments/server/lib
 
