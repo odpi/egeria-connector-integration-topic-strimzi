@@ -2,7 +2,7 @@
 # Copyright Contributors to the Egeria project
 
 # This is the EGERIA version - typically passed from the ci/cd pipeline
-ARG EGERIA_BASE_IMAGE=quay.io/odpi/egeria:latest
+ARG EGERIA_BASE_IMAGE=quay.io/odpi/egeria
 ARG EGERIA_VERSION=latest
 # Must be set to help get the right files for the connextors
 
@@ -16,5 +16,5 @@ LABEL org.opencontainers.image.description = "Egeria with Strimzi connector" \
 
 ENV CONNECTOR_VERSION ${CONNECTOR_VERSION}
 
-COPY build/libs/egeria-connector-integration-topic-strimzi-${CONNECTOR_VERSION}-with-dependencies.jar /deployments/server/lib
+COPY build/libs/egeria-connector-integration-topic-strimzi-${CONNECTOR_VERSION}-jar-with-dependencies.jar /deployments/server/lib
 
