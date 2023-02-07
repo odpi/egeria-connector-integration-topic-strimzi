@@ -61,24 +61,33 @@ jobs:
         uses: docker/setup-qemu-action@v2
       - name: Set Release version env variables
         run: |
-          echo "VERSION=$(./gradlew properties --no-daemon --console=plain -q | grep '^version:' | awk '{printf $2}')" >> $GITHUB_ENV
-          echo "EGERIA_BASE_IMAGE=quay.io/odpi/egeria:$(./gradlew dependencies | grep org.odpi.egeria:open-connector-framework | awk -F':' '{print $3}' | awk -F' ' '{print $1}' | uniq| head -1)" >> $GITHUB_ENV
+          echo "CONNECTOR_VERSION=$(./gradlew properties --no-daemon --console=plain -q | grep '^version:' | awk '{printf $2}')" >> $GITHUB_ENV
+          echo "EGERIA_BASE_IMAGE=quay.io/odpi/egeria" >> $GITHUB_ENV
+          echo "EGERIA_VERSION=$(./gradlew dependencies | grep org.odpi.egeria:open-connector-framework | awk -F':' '{print $3}' | awk -F' ' '{print $1}' | uniq| head -1)" >> $GITHUB_ENV
       - name: Build and push to quay.io and docker.io (tag latest only for main!)
         if: ${{ github.ref == 'refs/heads/main'}}
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: odpi/egeria:${{ env.VERSION }}, odpi/egeria:latest, quay.io/odpi/egeria-connector-integration-topic-strimzi:${{ env.VERSION }}, quay.io/odpi/egeria-connector-integration-topic-strimzi:latest
+          tags: odpi/egeria:${{ env.CONNECTOR_VERSION }}, odpi/egeria:latest, quay.io/odpi/egeria-connector-integration-topic-strimzi:${{ env.CONNECTOR_VERSION }}, quay.io/odpi/egeria-connector-integration-topic-strimzi:latest
           platforms: linux/amd64,linux/arm64
+          build-args: |
+            EGERIA_BASE_IMAGE=${{ env.EGERIA_BASE_IMAGE }}
+            CONNECTOR_VERSION=${{ env.CONNECTOR_VERSION }}
+            EGERIA_VERSION=${{ env.EGERIA_VERSION }}
       - name: Build and push( to quay.io and docker.io (no tag latest)
         if: ${{ github.ref != 'refs/heads/main'}}
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: odpi/egeria:${{ env.VERSION }}, quay.io/odpi/egeria-connector-integration-topic-strimzi:${{ env.VERSION }}
+          tags: odpi/egeria:${{ env.CONNECTOR_VERSION }}, quay.io/odpi/egeria-connector-integration-topic-strimzi:${{ env.CONNECTOR_VERSION }}
           platforms: linux/amd64,linux/arm64
+          build-args: |
+            EGERIA_BASE_IMAGE=${{ env.EGERIA_BASE_IMAGE }}
+            CONNECTOR_VERSION=${{ env.CONNECTOR_VERSION }}
+            EGERIA_VERSION=${{ env.EGERIA_VERSION }}
       # --
       - name: Upload Connector
         uses: actions/upload-artifact@v3
