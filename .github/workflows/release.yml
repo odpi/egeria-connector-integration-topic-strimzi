@@ -57,13 +57,13 @@ jobs:
         run: |
           echo "CONNECTOR_VERSION=$(./gradlew properties --no-daemon --console=plain -q | grep '^version:' | awk '{printf $2}')" >> $GITHUB_ENV
           echo "EGERIA_BASE_IMAGE=quay.io/odpi/egeria" >> $GITHUB_ENV
-          echo "EGERIA_VERSION=$(./gradlew dependencies | grep org.odpi.egeria:open-connector-framework | awk -F':' '{print $3}' | awk -F' ' '{print $1}' | uniq| head -1)" >> $GITHUB_ENV
+          echo "EGERIA_VERSION=$(./gradlew dependencies | grep org.odpi.egeria:open-connector-framework | awk -F':' '{if ($3) print $3}' | awk -F' ' '{print $1}' | uniq| head -1)" >> $GITHUB_ENV
       - name: Build and push( to quay.io and docker.io (no tag latest)
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
-          tags: odpi/egeria:${{ env.VERSION }}, quay.io/odpi/egeria-connector-integration-topic-strimzi:${{ env.VERSION }}
+          tags: odpi/egeria-connector-integration-topic-strimzi:${{ env.VERSION }}, quay.io/odpi/egeria-connector-integration-topic-strimzi:${{ env.VERSION }}
           platforms: linux/amd64,linux/arm64
           build-args: |
             EGERIA_BASE_IMAGE=${{ env.EGERIA_BASE_IMAGE }}
