@@ -59,7 +59,7 @@ jobs:
           echo "EGERIA_BASE_IMAGE=quay.io/odpi/egeria" >> $GITHUB_ENV
           echo "EGERIA_VERSION=$(./gradlew dependencies | grep org.odpi.egeria:open-connector-framework | awk -F':' '{if ($3) print $3}' | awk -F' ' '{print $1}' | uniq| head -1)" >> $GITHUB_ENV
       - name: Build and push( to quay.io and docker.io (no tag latest)
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           push: true
