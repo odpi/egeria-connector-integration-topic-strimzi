@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-# Copyright Contributors to the ODPi Egeria project.
+# Copyright Contributors to the Egeria project.
 name: "Merge"
 
 on:
@@ -8,10 +8,9 @@ on:
   # Also allow for manual invocation for testing
   workflow_dispatch:
 
-
 jobs:
   build:
-    if: ${{ github.repository == 'odpi/egeria-connector-integration-topic-strimzi'}}
+    if: startsWith(github.repository,'odpi/')
     runs-on: ubuntu-latest
     name: "Merge"
     steps:
@@ -24,10 +23,12 @@ jobs:
       - uses: gradle/wrapper-validation-action@v1
       # Only for a merge into this repo - not a fork, and just for the main branch
       - name: Build (Publish snapshots to maven central)
-        if: ${{ github.repository == 'odpi/egeria-connector-integration-topic-strimzi' && github.ref == 'refs/heads/main'}}
-        # TODO: Need to extend build to make use of snapshot repo for publishing
-        run: ./gradlew publish
-        # Import secrets needed for code signing and distribution
+        if: ${{ github.ref == 'refs/heads/main'}}
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: false
+          arguments: build publish
+          # Import secrets needed for code signing and distribution
         env:
           OSSRH_GPG_KEYID: ${{ secrets.OSSRH_GPG_KEYID }}
           OSSRH_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_PASSPHRASE }}
@@ -36,11 +37,62 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
       # In other cases just build but don't publish
       - name: Build (no snapshots)
-        if: ${{ github.repository != 'odpi/egeria-connector-integration-topic-strimzi' || github.ref != 'refs/heads/main'}}
-        run: ./gradlew build
+        if: ${{ github.ref != 'refs/heads/main' }}
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: false
+          arguments: build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to container registry (Quay.io)
+        uses: docker/login-action@v2
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_IO_USERNAME }}
+          password: ${{ secrets.QUAY_IO_ACCESS_TOKEN }}
+      - name: Login to container registry (Docker Hub)
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      # QEMU is needed for ARM64 build for egeria-configure
+      # egeria-configure needs to install utilities
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set Release version env variables
+        run: |
+          echo "CONNECTOR_VERSION=$(./gradlew properties --no-daemon --console=plain -q | grep '^version:' | awk '{printf $2}')" >> $GITHUB_ENV
+          echo "EGERIA_BASE_IMAGE=quay.io/odpi/egeria" >> $GITHUB_ENV
+          echo "EGERIA_VERSION=$(./gradlew dependencies | grep org.odpi.egeria:open-connector-framework | awk -F':' '{if ($3) print $3}' | awk -F' ' '{print $1}' | uniq| head -1)" >> $GITHUB_ENV
+      - name: Build and push to quay.io and docker.io (tag latest only for main!)
+        if: ${{ github.ref == 'refs/heads/main'}}
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: odpi/egeria-connector-integration-topic-strimzi:${{ env.CONNECTOR_VERSION }}, odpi/egeria-connector-integration-topic-strimzi:latest, quay.io/odpi/egeria-connector-integration-topic-strimzi:${{ env.CONNECTOR_VERSION }}, quay.io/odpi/egeria-connector-integration-topic-strimzi:latest
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            EGERIA_BASE_IMAGE=${{ env.EGERIA_BASE_IMAGE }}
+            CONNECTOR_VERSION=${{ env.CONNECTOR_VERSION }}
+            EGERIA_VERSION=${{ env.EGERIA_VERSION }}
+      - name: Build and push( to quay.io and docker.io (no tag latest)
+        if: ${{ github.ref != 'refs/heads/main'}}
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: odpi/egeria-connector-integration-topic-strimzi:${{ env.CONNECTOR_VERSION }}, quay.io/odpi/egeria-connector-integration-topic-strimzi:${{ env.CONNECTOR_VERSION }}
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            EGERIA_BASE_IMAGE=${{ env.EGERIA_BASE_IMAGE }}
+            CONNECTOR_VERSION=${{ env.CONNECTOR_VERSION }}
+            EGERIA_VERSION=${{ env.EGERIA_VERSION }}
       # --
       - name: Upload Connector
         uses: actions/upload-artifact@v3
         with:
-          name: Strimzi Integration Connector
+          # TODO: merge - Update name & artifacts to upload
+          name: Jar
           path: '**/build/libs/*.jar'
+
