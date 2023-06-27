@@ -20,14 +20,11 @@ import org.odpi.openmetadata.accessservices.datamanager.properties.TopicProperti
 import org.odpi.openmetadata.adapters.connectors.integration.strimzi.ffdc.StrimziIntegrationConnectorAuditCode;
 import org.odpi.openmetadata.adapters.connectors.integration.strimzi.ffdc.StrimziIntegrationConnectorErrorCode;
 import org.odpi.openmetadata.frameworks.auditlog.messagesets.AuditLogMessageDefinition;
+import org.odpi.openmetadata.frameworks.auditlog.messagesets.ExceptionMessageDefinition;
 import org.odpi.openmetadata.frameworks.connectors.ffdc.ConnectorCheckedException;
-import org.odpi.openmetadata.frameworks.connectors.ffdc.InvalidParameterException;
-import org.odpi.openmetadata.frameworks.connectors.ffdc.PropertyServerException;
-import org.odpi.openmetadata.frameworks.connectors.ffdc.UserNotAuthorizedException;
 import org.odpi.openmetadata.frameworks.connectors.properties.EndpointProperties;
 import org.odpi.openmetadata.integrationservices.topic.connector.TopicIntegratorConnector;
 import org.odpi.openmetadata.integrationservices.topic.connector.TopicIntegratorContext;
-import org.odpi.openmetadata.frameworks.auditlog.messagesets.ExceptionMessageDefinition;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -40,8 +37,6 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.*;
-
-import static org.odpi.openmetadata.adapters.connectors.integration.strimzi.StrimziMonitorIntegrationProvider.DESCRIPTION_ANNOTATION_FIELD;
 
 
 /**
@@ -391,18 +386,6 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
         }
         return doUpdate;
     }
-
-    private void deleteFromContext(String methodName, String cataloguedTopicName, String cataloguedEgeriaTopicGUID) throws InvalidParameterException, UserNotAuthorizedException, PropertyServerException {
-        myContext.removeTopic(cataloguedEgeriaTopicGUID, cataloguedTopicName);
-
-        if (auditLog != null) {
-            auditLog.logMessage(methodName,
-                                StrimziIntegrationConnectorAuditCode.TOPIC_DELETED.getMessageDefinition(connectorName,
-                                                                                                        cataloguedTopicName,
-                                                                                                        cataloguedEgeriaTopicGUID));
-        }
-    }
-
 
     public RestTemplate restTemplate()
     throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
