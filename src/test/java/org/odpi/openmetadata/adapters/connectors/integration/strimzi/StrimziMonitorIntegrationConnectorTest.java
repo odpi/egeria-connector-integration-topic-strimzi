@@ -4,11 +4,10 @@
 package org.odpi.openmetadata.adapters.connectors.integration.strimzi;
 
 import org.junit.jupiter.api.Test;
-import org.odpi.openmetadata.accessservices.datamanager.metadataelements.ElementHeader;
 import org.odpi.openmetadata.accessservices.datamanager.metadataelements.TopicElement;
 import org.odpi.openmetadata.accessservices.datamanager.properties.TopicProperties;
 import org.odpi.openmetadata.frameworks.connectors.ffdc.ConnectorCheckedException;
-import org.odpi.openmetadata.frameworks.connectors.properties.ConnectionProperties;
+import org.odpi.openmetadata.frameworks.connectors.properties.beans.ElementHeader;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -7,10 +7,13 @@ package org.odpi.openmetadata.adapters.connectors.integration.strimzi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.TrustStrategy;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.core5.ssl.SSLContexts;
+import org.apache.hc.core5.ssl.TrustStrategy;
 import org.odpi.openmetadata.accessservices.datamanager.metadataelements.TopicElement;
 import org.odpi.openmetadata.accessservices.datamanager.properties.TemplateProperties;
 import org.odpi.openmetadata.accessservices.datamanager.properties.TopicProperties;
@@ -405,20 +408,24 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
     throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
 
-        SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom()
+        SSLContext sslContext = SSLContexts.custom()
                 .loadTrustMaterial(null, acceptingTrustStrategy)
                 .build();
 
-        SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext);
+        SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext);
+
+        HttpClientConnectionManager httpClientConnectionManager = PoolingHttpClientConnectionManagerBuilder
+                .create()
+                .setSSLSocketFactory(sslConnectionSocketFactory)
+                .build();
 
         CloseableHttpClient httpClient = HttpClients.custom()
-                .setSSLSocketFactory(csf)
+                .setConnectionManager(httpClientConnectionManager)
                 .build();
 
         HttpComponentsClientHttpRequestFactory requestFactory =
-                new HttpComponentsClientHttpRequestFactory();
+                new HttpComponentsClientHttpRequestFactory(httpClient);
 
-        requestFactory.setHttpClient(httpClient);
         return new RestTemplate(requestFactory);
     }
 
