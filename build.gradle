@@ -5,10 +5,26 @@
 
 plugins {
     id 'java-library'
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.github.johnrengelman.shadow" version "8.1.0"
     id 'idea'
     id 'maven-publish'
+    // Checks for unnecessary dependencies
+    id 'com.autonomousapps.dependency-analysis' version "1.19.0"
+    // helps resolve log implementation clashes
+    id 'dev.jacomet.logging-capabilities' version "0.11.0"
+    // This plugin helps resolve jakarta/javax dev.jacomet.logging-capabilities
+    id 'org.gradlex.java-ecosystem-capabilities' version "1.1"
 }
+
+// Mostly java, so default to this for now
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'jacoco'
+apply plugin: 'org.gradlex.java-ecosystem-capabilities'
+// temp disabled due to k/wrapp
+// apply plugin: 'dev.jacomet.logging-capabilities'
+// As we've migrated from maven - we'll assume all submodules publish directly to maven
+apply plugin: 'maven-publish'
 
 if (System.getenv("CI")) {
     apply plugin: 'signing'
@@ -17,7 +33,6 @@ if (System.getenv("CI")) {
 repositories {
     mavenCentral()
     maven { url("https://oss.sonatype.org/content/repositories/snapshots") }
-    mavenLocal() // note - this may pick up modified classes from ~/.m2
 }
 
 // ensures we pick up the very latest snapshots when built
@@ -28,43 +43,37 @@ configurations.all {
 
 group = 'org.odpi.egeria'
 version = '1.0-SNAPSHOT'
-
-ext.name = 'Strimzi topic integration connector'
+ext.name = 'strimzi-topic-integration-connector'
 description = 'Strimzi topic integration connector for Egeria'
 
 ext {
-    egeriaversion = '3.10'
-    slf4jVersion = '1.7.36'
-    jacksonVersion = '2.13.3'
-    jupiterVersion = '5.9.0'
-    httpclientVersion = '4.5.13'
+    egeriaVersion = '4.1'
+    httpClient5Version = '5.2.1'
 }
+
 dependencies {
+    implementation platform("org.odpi.egeria:egeria:${egeriaVersion}")
 
-    // Only used for build - already present in server chassis at runtime
-    compileOnly "org.odpi.egeria:audit-log-framework:${egeriaversion}"
-    compileOnly "org.odpi.egeria:data-manager-api:${egeriaversion}"
-    // TODO: this is a dependency on an optional connector. validate, document as needed, consider packaging impact
+    implementation "org.odpi.egeria:open-connector-framework"
+    implementation "org.odpi.egeria:repository-services-apis"
+    implementation "org.odpi.egeria:data-manager-api"
+    implementation "org.odpi.egeria:open-integration-framework"
+    implementation "org.odpi.egeria:topic-integrator-api"
+    implementation "org.odpi.egeria:audit-log-framework"
+    implementation "com.fasterxml.jackson.core:jackson-annotations"
+    implementation "com.fasterxml.jackson.core:jackson-core"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "org.apache.httpcomponents.client5:httpclient5:${httpClient5Version}"
 
-    compileOnly "org.odpi.egeria:kafka-open-metadata-topic-connector:${egeriaversion}"
-    compileOnly "org.odpi.egeria:open-connector-framework:${egeriaversion}"
-    compileOnly "org.odpi.egeria:repository-services-apis:${egeriaversion}"
-    compileOnly "org.odpi.egeria:repository-services:${egeriaversion}"
-    compileOnly "org.odpi.egeria:topic-integrator-api:${egeriaversion}"
-
-    // Needed for build and run
-    implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
-    implementation "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
-    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
-    implementation "org.apache.httpcomponents:httpclient:${httpclientVersion}"
-    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
+    compileOnly "org.springframework:spring-web"
+    compileOnly "org.apache.commons:commons-lang3"
 
     // Only needed to compile test code
-    testCompileOnly "org.junit.jupiter:junit-jupiter-api:${jupiterVersion}"
-    testImplementation "org.odpi.egeria:topic-integrator-api:${egeriaversion}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"
-
-    // TODO: Refactor above with custom configurations if cleaner
+    testCompileOnly "org.junit.jupiter:junit-jupiter-api"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    testImplementation "org.mockito:mockito-junit-jupiter"
+    testImplementation "org.odpi.egeria:connector-configuration-factory"
+    testImplementation "org.odpi.egeria:fvt-utilities"
 }
 
 
@@ -84,8 +93,8 @@ test {
 
 // Maven Central (technically sonatype oss) requires we distribute source and javadoc
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
     withJavadocJar()
     withSourcesJar()
 }
@@ -93,8 +102,8 @@ java {
 // More Java language settings
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-    sourceCompatibility = "11"
-    targetCompatibility = "11"
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
     options.incremental = true
     options.fork = true
     options.failOnError = true
