@@ -5,10 +5,26 @@
 
 plugins {
     id 'java-library'
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.github.johnrengelman.shadow" version "8.1.0"
     id 'idea'
     id 'maven-publish'
+    // Checks for unnecessary dependencies
+    id 'com.autonomousapps.dependency-analysis' version "1.19.0"
+    // helps resolve log implementation clashes
+    id 'dev.jacomet.logging-capabilities' version "0.11.0"
+    // This plugin helps resolve jakarta/javax dev.jacomet.logging-capabilities
+    id 'org.gradlex.java-ecosystem-capabilities' version "1.1"
 }
+
+// Mostly java, so default to this for now
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'jacoco'
+apply plugin: 'org.gradlex.java-ecosystem-capabilities'
+// temp disabled due to k/wrapp
+// apply plugin: 'dev.jacomet.logging-capabilities'
+// As we've migrated from maven - we'll assume all submodules publish directly to maven
+apply plugin: 'maven-publish'
 
 if (System.getenv("CI")) {
     apply plugin: 'signing'
@@ -38,7 +54,7 @@ ext {
 dependencies {
     implementation platform("org.odpi.egeria:egeria:${egeriaVersion}")
 
-    implementation "org.odpi.egeria:open-connector-framework:${egeriaVersion}"
+    implementation "org.odpi.egeria:open-connector-framework"
     implementation "org.odpi.egeria:repository-services-apis"
     implementation "org.odpi.egeria:data-manager-api"
     implementation "org.odpi.egeria:open-integration-framework"
