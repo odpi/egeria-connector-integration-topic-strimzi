@@ -387,8 +387,7 @@ public class StrimziMonitorIntegrationConnector extends TopicIntegratorConnector
         return doUpdate;
     }
 
-    public RestTemplate restTemplate()
-    throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+    public RestTemplate restTemplate() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
 
         SSLContext sslContext = SSLContexts.custom()
