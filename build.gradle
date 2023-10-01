@@ -47,7 +47,7 @@ ext.name = 'strimzi-topic-integration-connector'
 description = 'Strimzi topic integration connector for Egeria'
 
 ext {
-    egeriaVersion = '4.1'
+    egeriaVersion = '4.3'
     httpClient5Version = '5.2.1'
 }
 
