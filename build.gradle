@@ -48,7 +48,7 @@ description = 'Strimzi topic integration connector for Egeria'
 
 ext {
     egeriaVersion = '4.1'
-    httpClient5Version = '5.2.1'
+    httpClient5Version = '5.2.2'
 }
 
 dependencies {
