@@ -90,7 +90,7 @@ jobs:
             EGERIA_VERSION=${{ env.EGERIA_VERSION }}
       # --
       - name: Upload Connector
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           # TODO: merge - Update name & artifacts to upload
           name: Jar
